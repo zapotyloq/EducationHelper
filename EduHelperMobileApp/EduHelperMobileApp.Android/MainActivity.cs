@@ -29,8 +29,10 @@ namespace EduHelperMobileApp.Droid
             SetContentView(Resource.Layout.activity_main);
 
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
-            indicator = new DrawerArrowDrawable(this);
-            indicator.Color = Color.White;
+            indicator = new DrawerArrowDrawable(this)
+            {
+                Color = Color.White
+            };
             SupportActionBar.SetHomeAsUpIndicator(indicator);
 
             SetTransformer();
@@ -42,7 +44,7 @@ namespace EduHelperMobileApp.Droid
 
         private void SetTransformer()
         {
-            float spacing = Resources.GetDimensionPixelSize(Resource.Dimension.spacing);
+            float spacing = Resources.GetDimensionPixelSize(Resource.Dimension.mtrl_btn_letter_spacing);
             SideBar rightSideBar = FindViewById<SideBar>(Resource.Id.rightSideBar);
             rightSideBar.SetTransformer(new Transformer(spacing));
         }
@@ -108,7 +110,7 @@ namespace EduHelperMobileApp.Droid
     public class Transformer : Java.Lang.Object, ITransformer
     {
         private View lastHoverView;
-        private float spacing;
+        private readonly float spacing;
 
         public Transformer(float spacing)
         {
@@ -120,13 +122,13 @@ namespace EduHelperMobileApp.Droid
             bool hovered = itemView.Pressed;
             if (hovered && lastHoverView != itemView)
             {
-                animateIn(itemView);
-                animateOut(lastHoverView);
+                AnimateIn(itemView);
+                AnimateOut(lastHoverView);
                 lastHoverView = itemView;
             }
         }
 
-        private void animateOut(View view)
+        private void AnimateOut(View view)
         {
             if (view == null)
             {
@@ -137,7 +139,7 @@ namespace EduHelperMobileApp.Droid
             translationX.Start();
         }
 
-        private void animateIn(View view)
+        private void AnimateIn(View view)
         {
             ObjectAnimator translationX = ObjectAnimator.OfFloat(view, "translationX", 0, -spacing);
             translationX.SetDuration(200);
