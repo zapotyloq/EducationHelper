@@ -9,6 +9,8 @@ namespace EducationHelper.Models
         public DbSet<Class> Classes { get; set; }
         public DbSet<New> News { get; set; }
         public DbSet<Event> Events { get; set; }
+        public DbSet<UserEvent> UserEvents { get; set; }
+        public DbSet<UserEventDocument> UserEventDocuments { get; set; }
 
         public AppContext(DbContextOptions<AppContext> options) : base(options) { }
     }

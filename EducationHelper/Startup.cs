@@ -30,6 +30,18 @@ namespace EducationHelper
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddHttpsRedirection(options =>
+            //{
+            //    options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
+            //    options.HttpsPort = 44344;
+            //});
+
+            //services.AddHsts(options =>
+            //{
+            //    options.Preload = true;
+            //    options.IncludeSubDomains = true;
+            //    options.MaxAge = TimeSpan.FromDays(60);
+            //});
             string connection = Configuration.GetConnectionString("DbConnection");
             services.AddDbContext<Models.AppContext>(options => options.UseMySql(connection));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -69,7 +81,7 @@ namespace EducationHelper
             app.UseStaticFiles();
             app.UseRouting();
 
-
+           // app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();
 
