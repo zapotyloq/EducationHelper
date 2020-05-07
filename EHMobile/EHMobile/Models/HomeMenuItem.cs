@@ -7,8 +7,10 @@ namespace EHMobile.Models
     public enum MenuItemType
     {
         Browse,
+        Login,
         Events,
-        About
+        About,
+        Logout
     }
     public class HomeMenuItem
     {

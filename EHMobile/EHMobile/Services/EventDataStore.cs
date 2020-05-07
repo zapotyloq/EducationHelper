@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using EHMobile.Models;
@@ -68,8 +70,24 @@ namespace EHMobile.Services
 
         public async Task<IEnumerable<Event>> GetItemsAsync(bool forceRefresh = false)
         {
-            HttpClient client = GetClient();
-            string result = await client.GetStringAsync(Url);
+            WebRequest request = WebRequest.Create(Auth.HOST + "/events");
+            //request2.Headers.Set("Accept", "application/json");
+            ((HttpWebRequest)request).Accept = "application/json";
+            request.Headers.Set("Authorization", "Bearer " + (string)App.Current.Properties["Token"]);
+            WebResponse response = await request.GetResponseAsync();
+
+            string result = "";
+            using (Stream stream = response.GetResponseStream())
+            {
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    result += reader.ReadToEnd();
+                }
+            }
+            response.Close();
+
+            //HttpClient client = GetClient();
+            //string result = await client.GetStringAsync(Url);
             return JsonConvert.DeserializeObject<IEnumerable<Event>>(result);
             //return await Task.FromResult(items);
         }

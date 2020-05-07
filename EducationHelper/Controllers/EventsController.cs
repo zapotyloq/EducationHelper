@@ -20,10 +20,37 @@ namespace EducationHelper.Controllers
             db = context;
         }
 
+        [Authorize]
         [HttpGet]
         public ActionResult<IEnumerable<Event>> Get()
         {
-            return db.Events.ToList();
+            User user = db.Users.FirstOrDefault(p => p.Login == User.Identity.Name);
+            List<Event> result = new List<Event>();
+
+            if (user != null)
+            {
+                switch (Convert.ToInt32(user.Role))
+                {
+                    case 1: result = db.Events.ToList(); break;
+                    case 2: //Обычный пользователь
+                        {
+                            db.UserEvents.Where(p => p.UserId == user.Id).ToList().ForEach(ue => result.Add(db.Events.FirstOrDefault(p => p.Id == ue.EventId)));
+                        }
+                        break;
+                    case 3:
+                        {
+                            //добавяем где учавствует
+                            List<UserEvent> userEvents = db.UserEvents.Where(p => p.UserId == user.Id).ToList();
+
+                            if(userEvents.Any(ue => db.Events.FirstOrDefault(e => e.Id == ue.EventId && e.AuthorId != user.Id) != null))
+                                userEvents.ForEach(ue => result.Add(db.Events.FirstOrDefault(p => p.Id == ue.EventId && p.AuthorId != user.Id))); ;
+                            //добавляем где автор
+                            db.Events.Where(p => p.AuthorId == user.Id).ToList().ForEach(e => result.Add(e));
+                        }
+                        break;
+                }
+            }
+            return result;
         }
 
         // GET /5

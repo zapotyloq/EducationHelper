@@ -57,7 +57,7 @@ namespace EducationHelper.Controllers
         [Route("/checkAuth")]
         public IActionResult Token()
         {
-            return Ok();
+            return Ok(db.Users.FirstOrDefault(p => p.Login == User.Identity.Name));
         }
         private ClaimsIdentity GetIdentity(string username, string password)
         {

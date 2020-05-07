@@ -24,11 +24,29 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\EventDocumentDetailPage.xaml.cs">
+      <DependentUpon>EventDocumentDetailPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\EventUserDetailPage.xaml.cs">
+      <DependentUpon>EventUserDetailPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\EventDocumentsPage.xaml.cs">
+      <DependentUpon>EventDocumentsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\EventUsersPage.xaml.cs">
+      <DependentUpon>EventUsersPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\LoginPage.xaml.cs">
+      <DependentUpon>LoginPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\EventsPage.xaml.cs">
       <DependentUpon>EventsPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\EventDetailPage.xaml.cs">
       <DependentUpon>EventDetailPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\NewEventPage.xaml.cs">
+      <DependentUpon>NewEventPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>

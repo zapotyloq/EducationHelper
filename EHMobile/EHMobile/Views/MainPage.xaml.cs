@@ -6,6 +6,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 using EHMobile.Models;
+using EHMobile.Services;
 
 namespace EHMobile.Views
 {
@@ -20,8 +21,6 @@ namespace EHMobile.Views
             InitializeComponent();
 
             MasterBehavior = MasterBehavior.Popover;
-
-            MenuPages.Add((int)MenuItemType.Browse, (NavigationPage)Detail);
         }
 
         public async Task NavigateFromMenu(int id)
@@ -30,14 +29,24 @@ namespace EHMobile.Views
             {
                 switch (id)
                 {
-                    case (int)MenuItemType.Browse:
-                        MenuPages.Add(id, new NavigationPage(new ItemsPage()));
+                    case (int)MenuItemType.Login:
+                        MenuPages.Add(id, new NavigationPage(new LoginPage()));
                         break;
+                    //case (int)MenuItemType.Browse:
+                    //    MenuPages.Add(id, new NavigationPage(new ItemsPage()));
+                    //    break;
                     case (int)MenuItemType.Events:
                         MenuPages.Add(id, new NavigationPage(new EventsPage()));
                         break;
                     case (int)MenuItemType.About:
                         MenuPages.Add(id, new NavigationPage(new AboutPage()));
+                        break;
+                    case (int)MenuItemType.Logout:
+                        {
+                            App.Current.Properties["Token"] = "";
+                            Auth.User = null;
+                            MenuPages.Add(id, new NavigationPage(new LoginPage()));
+                        }
                         break;
                 }
             }

@@ -7,6 +7,7 @@ namespace EducationHelper.Models
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Class> Classes { get; set; }
+        public DbSet<UserClass> UserClasses { get; set; }
         public DbSet<New> News { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<UserEvent> UserEvents { get; set; }

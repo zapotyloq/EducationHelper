@@ -10,16 +10,19 @@
         <script type="text/javascript" src="js/md5.js"></script>
         <script>
             async function checkAuthAsync() {
-
+                console.log(sessionStorage.getItem(tokenKey));
                 const checkAuths = await fetch("/checkAuth", {
                     method: "GET",
                     headers: {
                         "Accept": "application/json",
-                        "Authorization": "Bearer " + sessionStorage.getItem(tokenKey)  // передача токена в заголовке
+                        "Authorization": "Bearer " + sessionStorage.getItem(tokenKey),  // передача токена в заголовке
+
                     }
                 });
                 if (checkAuths.ok) {
-                    return true;
+                    var flag = true;
+                    await checkAuths.json().then(function (data) { if (data.role != 1) flag = false; });
+                    return flag;
                 }
                 else {
                     return false;

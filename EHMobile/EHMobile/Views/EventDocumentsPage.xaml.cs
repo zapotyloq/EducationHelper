@@ -17,30 +17,26 @@ namespace EHMobile.Views
     // Learn more about making custom code visible in the Xamarin.Forms previewer
     // by visiting https://aka.ms/xamarinforms-previewer
     [DesignTimeVisible(false)]
-    public partial class EventsPage : ContentPage
+    public partial class EventDocumentsPage : ContentPage
     {
-        EventsViewModel viewModel;
+        EventDocumentsViewModel viewModel;
 
-        public EventsPage()
+        public EventDocumentsPage(EventDocumentsViewModel viewModel)
         {
             InitializeComponent();
 
-            BindingContext = viewModel = new EventsViewModel();
+            BindingContext = this.viewModel = viewModel;
         }
 
         async void OnItemSelected(object sender, EventArgs args)
         {
             var layout = (BindableObject)sender;
-            var item = (Event)layout.BindingContext;
-            var ue = await new UserEventDataStore().GetItemAsync(item.Id, Auth.User.Id);
-            await Navigation.PushAsync(new EventDetailPage(new EventDetailViewModel(item,ue)));
-        }
-
-        async void AddItem_Clicked(object sender, EventArgs e)
-        {
+            var item = (UserEventDocument)layout.BindingContext; 
             User u = await Auth.GetUser();
-            if(u.Role == "3" || u.Role == "1")
-                await Navigation.PushModalAsync(new NavigationPage(new NewEventPage()));
+            if (u.Id == viewModel.Event.AuthorId || u.Role == "1")
+            {
+                //await Navigation.PushAsync(new EventUserDetailPage(new EventUserDetailViewModel(viewModel.Event,item)));
+            }
         }
 
         protected override void OnAppearing()

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="EHMobile.Views.LoginPage"
+             Title="{Binding Title}"
+             x:Name="BrowseLoginPage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Войти" Clicked="Login" />
+    </ContentPage.ToolbarItems>
+
+    <StackLayout Padding="10">
+        <Editor Completed="e_loginChanged" Placeholder="Логин"/>
+        <Editor Completed ="e_passChanged" Placeholder="Пароль"/>
+    </StackLayout>
+</ContentPage>

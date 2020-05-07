@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="EHMobile.Views.EventDocumentDetailPage"
+             Title="{Binding Title}">
+    <RefreshView IsRefreshing="{Binding IsBusy, Mode=TwoWay}" Command="{Binding LoadItemsCommand}">
+        <StackLayout x:Name="sL" Spacing="20" Padding="15">
+            <Label Text="Событие:" FontSize="Medium" />
+            <Label Text="{Binding Event.Name}" d:Text="Item name" FontSize="Small"/>            
+            <Label Text="Файл:" FontSize="Medium" />
+            <Label Text="{Binding UserEventDocument.FilePath}" d:Text="0" FontSize="Small"/>
+            <Button Margin="0,10,0,0" Text="Отметить"
+                        TextColor="White" 
+                Clicked="Mark"/>
+            <!--<Button Margin="0,10,0,0" Text="Участники"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="White"
+                        Clicked="OpenUsers"/>
+        <Button Margin="0,10,0,0" Text="Отправить в архив"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="White"
+                        Clicked="RemoveEvent"/>-->
+        </StackLayout>
+    </RefreshView>
+</ContentPage>

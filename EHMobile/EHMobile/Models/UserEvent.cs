@@ -10,6 +10,6 @@ namespace EHMobile.Models
         public int UserId { get; set; }
         public int EventId { get; set; }
         public int Total { get; set; }
-        public decimal Progress { get; set; }
+        public int Progress { get; set; }
     }
 }

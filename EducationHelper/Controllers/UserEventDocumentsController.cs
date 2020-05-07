@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Common.Models;
@@ -26,6 +28,41 @@ namespace EducationHelper.Controllers
             return db.UserEventDocuments.ToList();
         }
 
+        [HttpGet("GetForUserEvent")]
+        [Authorize]
+        public ActionResult<IEnumerable<UserEventDocument>> GetForUserevent(int usereventid)
+        {
+            return db.UserEventDocuments.Where(p => p.UserEventId == usereventid).ToList();
+        }
+
+        [HttpGet("test")]
+        [Authorize]
+        public bool Getsnt()
+        {
+            FileStream fs = new FileStream(@"E:\1.png", FileMode.Open, FileAccess.Read);
+
+            //Initialize a byte array with size of stream
+            byte[] imgByteArr = new byte[fs.Length];
+
+            //Read data from the file stream and put into the byte array
+            fs.Read(imgByteArr, 0, Convert.ToInt32(fs.Length));
+
+            //Close a file stream
+            fs.Close();
+            db.UserEventDocuments.First().File = imgByteArr;
+            db.SaveChanges();
+            return true;
+        }
+
+        [HttpGet("GetByEventId")]
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<UserEventDocument>>> GetByEventId(int eventid)
+        {
+            List<UserEventDocument> res = new List<UserEventDocument>();
+            await db.UserEvents.Where(p => p.EventId == eventid).ForEachAsync(ue => db.UserEventDocuments.Where(p => p.UserEventId == ue.Id).ToList().ForEach(f => res.Add(f)));
+            return new ObjectResult(res);
+        }
+
         // GET /5
         [HttpGet("{id}")]
         public async Task<ActionResult<UserEventDocument>> Get(int id)
@@ -37,6 +74,7 @@ namespace EducationHelper.Controllers
         }
 
         // POST 
+        //[Authorize]
         [HttpPost]
         public async Task<ActionResult<UserEventDocument>> Post(UserEventDocument userEventDocument)
         {

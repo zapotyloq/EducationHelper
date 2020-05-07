@@ -5,16 +5,34 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="EHMobile.Views.EventDetailPage"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             x:Name="BrowseEventDetailPage">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Добавить файл" Clicked="AddFile_Clicked" />
     </ContentPage.ToolbarItems>
-    
-    <StackLayout Spacing="20" Padding="15">
-        <Label Text="Событие:" FontSize="Medium" />
-        <Label Text="{Binding Item.Name}" d:Text="Item name" FontSize="Small"/>
-        <Label Text="Описание:" FontSize="Medium" />
-        <Label Text="{Binding Item.Description}" d:Text="Item description" FontSize="Small"/>
-    </StackLayout>
-    
+
+    <RefreshView IsRefreshing="{Binding IsBusy, Mode=TwoWay}" Command="{Binding LoadItemsCommand}">
+        <StackLayout x:Name="sL" Spacing="20" Padding="15">
+            <Label Text="Событие:" FontSize="Medium" />
+            <Label Text="{Binding Item.Name}" d:Text="Item name" FontSize="Small"/>
+            <Label Text="Описание:" FontSize="Medium" />
+            <Label Text="{Binding Item.Description}" d:Text="Item description" FontSize="Small"/>
+            <Label Text="Оплачено:" FontSize="Medium" />
+            <Label Text="{Binding UserEvent.Progress}" d:Text="0" FontSize="Small"/>
+            <Label Text="Стоимость" FontSize="Medium" />
+            <Label Text="{Binding Userevent.Total}" d:Text="0" FontSize="Small"/>
+            <!--<Button Margin="0,10,0,0" Text="Документы"
+                            BackgroundColor="{StaticResource Primary}"
+                            TextColor="White" 
+                    Clicked="OpenDocks"/>
+            <Button Margin="0,10,0,0" Text="Участники"
+                            BackgroundColor="{StaticResource Primary}"
+                            TextColor="White"
+                            Clicked="OpenUsers"/>
+            <Button Margin="0,10,0,0" Text="Отправить в архив"
+                            BackgroundColor="{StaticResource Primary}"
+                            TextColor="White"
+                            Clicked="RemoveEvent"/>-->
+        </StackLayout>
+    </RefreshView>
 </ContentPage>

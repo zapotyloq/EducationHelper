@@ -9,6 +9,8 @@ using Plugin.Media;
 using Plugin.Media.Abstractions;
 using Android.Provider;
 using System.Net.Http;
+using EHMobile.Services;
+using System.IO;
 
 namespace EHMobile.Views
 {
@@ -24,41 +26,117 @@ namespace EHMobile.Views
             InitializeComponent();
 
             BindingContext = this.viewModel = viewModel;
-        }
 
-        public EventDetailPage()
-        {
-            InitializeComponent();
-
-            var item = new Event
+            if (Auth.User.Id == viewModel.Item.AuthorId || Auth.User.Role == "1")
             {
-                Name = "Item 1",
-                Description = "This is an item description."
-            };
+                Button btn_docks = new Button
+                {
+                    Text = "Документы",
+                    BackgroundColor = Color.SpringGreen,
+                    TextColor = Color.White,
+                    FontSize = 22
+                };
+                btn_docks.Clicked += OpenDocks;
+                sL.Children.Add(btn_docks);
 
-            viewModel = new EventDetailViewModel(item);
-            BindingContext = viewModel;
+                Button btn_users = new Button
+                {
+                    Text = "Участники",
+                    BackgroundColor = Color.SpringGreen,
+                    TextColor = Color.White,
+                    FontSize = 22
+                };
+                btn_users.Clicked += OpenUsers;
+                sL.Children.Add(btn_users);
 
-           
+                Button btn_opl = new Button
+                {
+                    Text = "Оплата события",
+                    BackgroundColor = Color.SpringGreen,
+                    TextColor = Color.White,
+                    FontSize = 22
+                };
+                btn_opl.Clicked += OplEvent;
+                sL.Children.Add(btn_opl);
+
+                Button btn_rmv = new Button
+                {
+                    Text = "Отправить в архив",
+                    BackgroundColor = Color.SpringGreen,
+                    TextColor = Color.White,
+                    FontSize = 22
+                };
+                btn_rmv.Clicked += RemoveEvent;
+                sL.Children.Add(btn_rmv);
+            }
         }
         async void AddFile_Clicked(object sender, EventArgs args)
         {
+            //ImageSource.FromStream(() => new MemoryStream(imageAsBytes));
+            //ImageSource.FromStream(() => new MemoryStream(imageAsBytes));
+            //FromUri— Требуется объект URI, например. new Uri("http://server.com/image.jpg") .
+
+            
+
             Image img = new Image();
             if (CrossMedia.Current.IsPickPhotoSupported)
             {
                 MediaFile photo = await CrossMedia.Current.PickPhotoAsync();
                 img.Source = ImageSource.FromFile(photo.Path);
 
-                var uri = new Uri(string.Format("E://Files/Upload/", string.Empty));
-                var content = new MultipartFormDataContent();
+                FileStream fs = new FileStream(photo.Path, FileMode.Open, FileAccess.Read);
+                UserEventDocument ued = new UserEventDocument
+                {
+                    File = new byte[fs.Length],
+                    FilePath = "ss",
+                    UserEventId = viewModel.UserEvent.Id
+                };
 
-                content.Add(new StreamContent(photo.GetStream()),
-                    "\"file\"",
-                    $"\"{photo.Path}\"");
+                fs.Read(ued.File, 0, Convert.ToInt32(fs.Length));
+                fs.Close();
 
-                var httpClient = new HttpClient();
-                var httpResponseMessage = await httpClient.PostAsync(uri, content);
+                await viewModel.UED_DataStore.AddItemAsync(ued);
             }
+        }
+
+        async void OpenDocks(object sender, EventArgs args)
+        {
+            User u = await Auth.GetUser();
+            if(u.Id == viewModel.Item.AuthorId || u.Role == "1")
+            {
+                await Navigation.PushAsync(new EventDocumentsPage(new EventDocumentsViewModel(viewModel.Item)));
+            }
+        }
+        async void OpenUsers(object sender, EventArgs args)
+        {
+            User u = await Auth.GetUser();
+            if (u.Id == viewModel.Item.AuthorId || u.Role == "1")
+            {
+                await Navigation.PushAsync(new EventUsersPage(new EventUsersViewModel(viewModel.Item)));
+            }
+        }
+        async void RemoveEvent(object sender, EventArgs args)
+        {
+            User u = await Auth.GetUser();
+            if (u.Id == viewModel.Item.AuthorId || u.Role == "1")
+            {
+
+            }
+        }
+
+        async void OplEvent(object sender, EventArgs args)
+        {
+            User u = await Auth.GetUser();
+            if (u.Id == viewModel.Item.AuthorId || u.Role == "1")
+            {
+
+            }
+        }
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            viewModel.IsBusy = true;
         }
     }
 }

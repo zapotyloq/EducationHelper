@@ -9,6 +9,6 @@ namespace Common.Models
         public int Id { get; set; }
         public int UserEventId { get; set; }
         public string FilePath { get; set; }
-
+        public byte[] File { get; set; }
     }
 }

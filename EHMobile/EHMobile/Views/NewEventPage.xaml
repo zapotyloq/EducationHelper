@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="EHMobile.Views.NewEventPage"
+             Title="Новое мероприятие">
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Отмена" Clicked="Cancel_Clicked" />
+        <ToolbarItem Text="Сохранить" Clicked="Save_Clicked" />
+    </ContentPage.ToolbarItems>
+    
+    <ContentPage.Content>
+        <StackLayout Spacing="20" Padding="15">
+            <Label Text="Название" FontSize="Medium" />
+            <Entry Text="{Binding Item.Name}" d:Text="Название" FontSize="Small" />
+            <Label Text="Описание" FontSize="Medium" />
+            <Editor Text="{Binding Item.Description}" d:Text="Описание" FontSize="Small" Margin="0" />
+            <Label Text="Сумма с человека (копеек)" FontSize="Medium" />
+            <Editor Text="{Binding Item.UserTotal}" d:Text="Сумма с человека(копеек)" FontSize="Small" Margin="0" />
+            <Label Text="Общая сумма (копеек)" FontSize="Medium" />
+            <Editor Text="{Binding Item.Total}" d:Text="Общая сумма (копеек)" FontSize="Small" Margin="0" />
+        </StackLayout>
+    </ContentPage.Content>
+    
+</ContentPage>

@@ -1,7 +1,9 @@
 ﻿using EHMobile.Models;
+using EHMobile.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -18,16 +20,11 @@ namespace EHMobile.Views
         {
             InitializeComponent();
 
-            menuItems = new List<HomeMenuItem>
-            {
-                new HomeMenuItem {Id = MenuItemType.Browse, Title="Browse" },
-                new HomeMenuItem {Id = MenuItemType.Events, Title="Мероприятия" },
-                new HomeMenuItem {Id = MenuItemType.About, Title="About" }
-            };
+            menuItems = new List<HomeMenuItem>();
+            ChangeMenu();
+            Auth.UserChanged += ChangeMenu;
 
-            ListViewMenu.ItemsSource = menuItems;
-
-            ListViewMenu.SelectedItem = menuItems[0];
+            //ListViewMenu.SelectedItem = menuItems[0];
             ListViewMenu.ItemSelected += async (sender, e) =>
             {
                 if (e.SelectedItem == null)
@@ -35,7 +32,27 @@ namespace EHMobile.Views
 
                 var id = (int)((HomeMenuItem)e.SelectedItem).Id;
                 await RootPage.NavigateFromMenu(id);
+                
             };
+        }
+
+        async void ChangeMenu()
+        {
+            
+            menuItems.Clear();
+            //menuItems.Add(new HomeMenuItem { Id = MenuItemType.Browse, Title = "Browse" });
+            menuItems.Add(new HomeMenuItem { Id = MenuItemType.About, Title = "About" });
+            if (Auth.User == null)
+            {
+                menuItems.Add(new HomeMenuItem { Id = MenuItemType.Login, Title = "Авторизация" });
+            }
+            else
+            {
+                menuItems.Add(new HomeMenuItem { Id = MenuItemType.Events, Title = "Мероприятия" });
+                menuItems.Add(new HomeMenuItem { Id = MenuItemType.Logout, Title = "Выход" });
+            }
+            ListViewMenu.ItemsSource = menuItems;
+            
         }
     }
 }
