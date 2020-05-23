@@ -40,11 +40,13 @@ async function getTokenAsync() {
 };
 
 document.getElementById("logout").addEventListener("click", e => {
- 
-            e.preventDefault();
+    $('.active').removeClass('active');
+    $('.in').removeClass('in');
+    e.preventDefault();
+    
             document.getElementById("menu").style.display = "none";
             document.getElementById("login-form").style.display = "block";
-            sessionStorage.removeItem(tokenKey);
+    sessionStorage.removeItem(tokenKey);
         });
 
 function changeIndex(isAuth) {

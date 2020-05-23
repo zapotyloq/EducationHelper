@@ -4,8 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
-using EHMobile.Models;
+using Common.Models;
 using Newtonsoft.Json;
 
 namespace EHMobile.Services
@@ -41,7 +42,14 @@ namespace EHMobile.Services
 
         public async Task<bool> AddItemAsync(Event item)
         {
-            items.Add(item);
+            WebRequest request = WebRequest.Create(Auth.HOST + "/events");
+            item.AuthorId = Auth.User.Id;
+            request.Method = "POST";
+            request.Headers.Set("Authorization", "Bearer " + (string)App.Current.Properties["Token"]);
+            var json = JsonConvert.SerializeObject(item);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await new HttpClient().PostAsync(Auth.HOST + "/events", content);
 
             return await Task.FromResult(true);
         }

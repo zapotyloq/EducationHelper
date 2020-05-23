@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
+using Common.Models;
 using EHMobile.Models;
 using EHMobile.Services;
 
@@ -37,6 +38,9 @@ namespace EHMobile.Views
                     //    break;
                     case (int)MenuItemType.Events:
                         MenuPages.Add(id, new NavigationPage(new EventsPage()));
+                        break;
+                    case (int)MenuItemType.Votes:
+                        MenuPages.Add(id, new NavigationPage(new VotesPage()));
                         break;
                     case (int)MenuItemType.About:
                         MenuPages.Add(id, new NavigationPage(new AboutPage()));

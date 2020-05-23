@@ -5,40 +5,42 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script type="text/javascript" src="js/md5.js"></script>
+    <script>
+        async function checkAuthAsync() {
+            console.log(sessionStorage.getItem(tokenKey));
+            const checkAuths = await fetch("/checkAuth", {
+                method: "GET",
+                headers: {
+                    "Accept": "application/json",
+                    "Authorization": "Bearer " + sessionStorage.getItem(tokenKey),  // передача токена в заголовке
 
-    <environment include="Development">
-        <script type="text/javascript" src="js/md5.js"></script>
-        <script>
-            async function checkAuthAsync() {
-                console.log(sessionStorage.getItem(tokenKey));
-                const checkAuths = await fetch("/checkAuth", {
-                    method: "GET",
-                    headers: {
-                        "Accept": "application/json",
-                        "Authorization": "Bearer " + sessionStorage.getItem(tokenKey),  // передача токена в заголовке
-
-                    }
-                });
-                if (checkAuths.ok) {
-                    var flag = true;
-                    await checkAuths.json().then(function (data) { if (data.role != 1) flag = false; });
-                    return flag;
                 }
-                else {
-                    return false;
-                }
+            });
+            if (checkAuths.ok) {
+                var flag = true;
+                await checkAuths.json().then(function (data) { if (data.role != 1) flag = false; });
+                return flag;
             }
-        </script>
-    </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-    </environment>
+            else {
+                return false;
+            }
+        }
+    </script>
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
+    <div class="container">
+        <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
@@ -48,56 +50,662 @@
                 </button>
                 <a href="index.html" class="navbar-brand">EducationHelper</a>
             </div>
-            <div class="navbar-collapse collapse" >
-                <ul class="nav navbar-nav" id="menu" style="display:none">
-                    <li><a href="">Персональная информация</a></li>
-                    <li><a href="">Новости</a></li>
-                    <li><a href="">Голлосования</a></li>
-                    <li><a href="classes.html">Классы</a></li>
-                    <li><a href="users.html">Пользователи</a></li>
+            <div class="navbar-collapse collapse">
+                <ul class="nav nav-tabs" id="menu" role="tablist" style="display:none">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Персональная инфрмаия</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="news-tab" data-toggle="tab" href="#news" role="tab" aria-controls="news" aria-selected="false">Новости</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="votes-tab" data-toggle="tab" href="#votes" role="tab" aria-controls="votes" aria-selected="false">Голосования</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="events-tab" data-toggle="tab" href="#events" role="tab" aria-controls="events" aria-selected="false">События</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="classes-tab" data-toggle="tab" href="#classes" role="tab" aria-controls="classes" aria-selected="false">Классы</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="users-tab" data-toggle="tab" href="#users" role="tab" aria-controls="users" aria-selected="false">Пользователи</a>
+                    </li>
                     <li><a href="" id="logout">Выход</a></li>
                 </ul>
             </div>
-        </div>
     </nav>
 
     <partial name="_CookieConsentPartial" />
 
     <div class="container body-content" id="login-form" style="display:none">
-        <h2>Логин</h2>
-            <div class="form-group col-md-5">
-                <label for="login">Логин</label>
-                <input class="form-control" id="login" />
-            </div>
-            <div class="form-group col-md-5">
-                <label for="password">Пароль:</label>
-                <input class="form-control" id="password" type="password" />
-            </div>
-            <div class="panel-body">
-                <button id="submit" type="submit" class="btn btn-primary">Войти</button>
-            </div>
-            <label id="errMsg"></label>
+        <h2>Авторизаия</h2>
+        <div class="form-group col-md-5">
+            <label for="login">Логин</label>
+            <input class="form-control" id="login" />
+        </div>
+        <div class="form-group col-md-5">
+            <label for="password">Пароль:</label>
+            <input class="form-control" id="password" type="password" />
+        </div>
+        <div class="panel-body">
+            <button id="submit" type="submit" class="btn btn-primary">Войти</button>
+        </div>
+        <label id="errMsg"></label>
         <hr />
-        <footer>
-            <p>&copy; 2020 - EducationHelper</p>
-        </footer>
     </div>
+    
+    <div class="tab-content">
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="card-body">
+                <form name="edit" class="cell">
+                    <h3 class="card-title">Персональная информация</h3><br />
+                    <table class="table" id="profile">
+                        <tr>
+                            <td><label class="control-label">Логин</label></td>
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td><label class="control-label">Фамилия</label></td>
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td><label class="control-label">Имя</label></td>
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td><label class="control-label">Электронная почта</label></td>
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td><label class="control-label">Телефон</label></td>
+                            <td colspan="2"></td>
+                        </tr>
+                    </table>
+                </form>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Редактироать</button>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="news" role="tabpanel" aria-labelledby="news-tab">
+            <div class="body-content" style="display:block">
+                <h2>Новости</h2>
+                <br />
+                <div class="row">
+                    <div class="cell col-sm">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Заголовок
+                                    </th>
+                                    <th>
+                                        Описание
+                                    </th>
+                                    <th>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="data_n">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm">
+                        <form name="edit" class="cell">
+                            <h3>Редактирование данных</h3><br />
+                            <table class="table" id="edit_n">
+                                <tr>
+                                    <td><label class="control-label">Номер п/п</label></td>
+                                    <td colspan="2"><input type="text" name="number" readonly class="form-control" /></td>
+                                </tr>
+                                <tr>
+                                    <td><label class="control-label">Заголовок</label></td>
+                                    <td colspan="2"><input type="text" name="nam" class="form-control" /></td>
+                                </tr>
+                                <tr>
+                                    <td><label class="control-label">Описание</label></td>
+                                    <td colspan="2"><textarea class="form-control" name="desc" rows="3"></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="button" name="add" value="Добавить" class="btn btn-default" /></td>
+                                    <td><input type="button" name="del" value="Удалить" class="btn btn-default" /></td>
+                                    <td><input type="button" name="upd" value="Обновить" class="btn btn-default" /></td>
+                                </tr>
+                            </table>
+                            <div id="msg_display_n"></div>
+                        </form>
+                    </div>
+                    <script type="text/javascript" src="js/news.js"></script>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="newDetailModal" tabindex="-1" role="dialog" aria-labelledby="newDetailModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="newDetailModalLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <button id="addun" class="btn btn-primary" data-toggle='modal' data-target='#addUNModal'>Добавить пользователя</button>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        ФИО
+                                    </th>
+                                    <th>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="data_un">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                    </div>
+                </div>
+            </div>
+            <script type="text/javascript" src="js/usernews.js"></script>
+        </div>
+        <div class="modal fade" id="addUNModal" tabindex="-1" role="dialog" aria-labelledby="addUNModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addUNModalLabel">Добавить пользователя</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        ФИО
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="data_aun">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="votes" role="tabpanel" aria-labelledby="votes-tab">
+            <div class="body-content" style="display:block">
+                <h2>Голосования</h2>
+                <br />
+                <div class="row">
+                    <div class="cell col-sm">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Название
+                                    </th>
+                                    <th>
+                                        Описание
+                                    </th>
+                                    <th>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="data_v">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm">
+                        <form name="edit" class="cell">
+                            <h3>Редактирование данных</h3><br />
+                            <table class="table" id="edit_v">
+                                <tr>
+                                    <td><label class="control-label">Номер п/п</label></td>
+                                    <td colspan="2"><input type="text" name="number" readonly class="form-control" /></td>
+                                </tr>
+                                <tr>
+                                    <td><label class="control-label">Название</label></td>
+                                    <td colspan="2"><input type="text" name="nam" class="form-control" /></td>
+                                </tr>
+                                <tr>
+                                    <td><label class="control-label">Описание</label></td>
+                                    <td colspan="2"><input type="text" name="desc" class="form-control" /></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="button" name="add" value="Добавить" class="btn btn-default" /></td>
+                                    <td><input type="button" name="del" value="Удалить" class="btn btn-default" /></td>
+                                    <td><input type="button" name="upd" value="Обновить" class="btn btn-default" /></td>
+                                </tr>
+                            </table>
+                            <div id="msg_display_v"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <script type="text/javascript" src="js/votes.js"></script>
+        </div>
+        <div class="modal fade" id="voteDetailModal" tabindex="-1" role="dialog" aria-labelledby="voteDetailModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="voteDetailModalLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <button id="adduo" class="btn btn-primary" data-toggle='modal' data-target='#addUOModal'>Добавить вариант ответа</button>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Варианты ответа
+                                    </th>
+                                    <th>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="data_uo">
+                            </tbody>
+                        </table>
+                        <button id="adduv" class="btn btn-primary" data-toggle='modal' data-target='#addUVModal'>Добавить пользователя</button>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        ФИО
+                                    </th>
+                                    <th>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="data_uv">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="addUVModal" tabindex="-1" role="dialog" aria-labelledby="addUVModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addUVModalLabel">Добавить пользователя</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        ФИО
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="data_auv">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="addUOModal" tabindex="-1" role="dialog" aria-labelledby="addUOModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addUOModalLabel">Добавить вариант ответа</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <label for="labeluo">Вариант ответа</label>
+                        <input type="text" class="form-control" id="labelou">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="addauo" class="btn btn-primary" data-dismiss="modal">Добавить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </div>
+            </div>
+            <script type="text/javascript" src="js/uservotes.js"></script>
+            <script type="text/javascript" src="js/voteoptions.js"></script>
+        </div>
+        <div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="events-tab">
+            <div class="body-content" style="display:block">
+                <h2>События</h2>
+                <br />
+                <div class="row">
+                    <div class="cell col-sm">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Название
+                                    </th>
+                                    <th>
+                                        Описание
+                                    </th>
+                                    <th>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="data_e">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm">
+                        <form name="edit" class="cell">
+                            <h3>Редактирование данных</h3><br />
+                            <table class="table" id="edit_e">
+                                <tr>
+                                    <td><label class="control-label">Номер п/п</label></td>
+                                    <td colspan="2"><input type="text" name="number" readonly class="form-control" /></td>
+                                </tr>
+                                <tr>
+                                    <td><label class="control-label">Название</label></td>
+                                    <td colspan="2"><input type="text" name="nam" class="form-control" /></td>
+                                </tr>
+                                <tr>
+                                    <td><label class="control-label">Описание</label></td>
+                                    <td colspan="2"><input type="text" name="desc" class="form-control" /></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="button" name="add" value="Добавить" class="btn btn-default" /></td>
+                                    <td><input type="button" name="del" value="Удалить" class="btn btn-default" /></td>
+                                    <td><input type="button" name="upd" value="Обновить" class="btn btn-default" /></td>
+                                </tr>
+                            </table>
+                            <div id="msg_display_e"></div>
+                        </form>
+                    </div>
+                    <script type="text/javascript" src="js/events.js"></script>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="eventDetailModal" tabindex="-1" role="dialog" aria-labelledby="eventDetailModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="eventDetailModalLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <button id="addue" class="btn btn-primary" data-toggle='modal' data-target='#addUEModal'>Добавить пользователя</button>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        ФИО
+                                    </th>
+                                    <th>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="data_ue">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                    </div>
+                </div>
+            </div>
+            <script type="text/javascript" src="js/userevents.js"></script>
+        </div>
+        <div class="modal fade" id="addUEModal" tabindex="-1" role="dialog" aria-labelledby="addUEModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addUEModalLabel">Добавить пользователя</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        ФИО
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="data_aue">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="classes" role="tabpanel" aria-labelledby="classes-tab">
+            <div class="body-content" style="display:block">
+                <h2>Классы</h2>
+                <br />
+                <div class="row">
+                    <div class="cell col-sm">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Номер
+                                    </th>
+                                    <th>
+                                        Обозначение
+                                    </th>
+                                    <th>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="data_c">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm">
+                        <form name="edit" class="cell">
+                            <h3>Редактирование данных</h3><br />
+                            <table class="table" id="edit_c">
+                                <tr>
+                                    <td><label class="control-label">Номер п/п</label></td>
+                                    <td colspan="2"><input type="text" name="number" readonly class="form-control" /></td>
+                                </tr>
+                                <tr>
+                                    <td><label class="control-label">Номер</label></td>
+                                    <td colspan="2"><input type="text" name="numb" class="form-control" /></td>
+                                </tr>
+                                <tr>
+                                    <td><label class="control-label">Обозначение</label></td>
+                                    <td colspan="2"><input type="text" name="sign" class="form-control" /></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="button" name="add" value="Добавить" class="btn btn-default" /></td>
+                                    <td><input type="button" name="del" value="Удалить" class="btn btn-default" /></td>
+                                    <td><input type="button" name="upd" value="Обновить" class="btn btn-default" /></td>
+                                </tr>
+                            </table>
+                            <div id="msg_display_c"></div>
+                        </form>
+                    </div>
+                    <script type="text/javascript" src="js/classes.js"></script>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="classDetailModal" tabindex="-1" role="dialog" aria-labelledby="classDetailModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="classDetailModalLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <button id="adduc" class="btn btn-primary" data-toggle='modal' data-target='#addUserModal'>Добавить пользователя</button>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        ФИО
+                                    </th>
+                                    <th>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="data_uc">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addUserModalLabel">Добавить пользователя</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        ФИО
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="data_auc">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </div>
+            </div>
+            <script type="text/javascript" src="js/userclasses.js"></script>
+        </div>
+        <div class="tab-pane fade" id="users" role="tabpanel" aria-labelledby="users-tab">
 
-        <script type="text/javascript" src="js/login.js"></script>
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
-        </script>
-        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
-        </script>
-        <script>
-            checkAuthAsync().then(changeIndex);
-        </script>
+            <div class="body-content" style="display:block">
+                <h2>Пользователи</h2>
+                <br />
+                <div class="row">
+                    <div class="cell col-sm">
+                        <table class="table table-hover" id="data">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Логин
+                                    </th>
+                                    <th>
+                                        Пароль
+                                    </th>
+                                    <th>
+                                        Фамилия
+                                    </th>
+                                    <th>
+                                        Имя
+                                    </th>
+                                    <th>
+                                        Роль пользователя
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="data_u">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm">
+                        <form name="edit" class="cell">
+                            <h3>Редактирование данных</h3><br />
+                            <table class="table" id="edit_u">
+                                <tr>
+                                    <td><label class="control-label">Номер</label></td>
+                                    <td colspan="2"><input type="text" name="number" readonly class="form-control" /></td>
+                                </tr>
+                                <tr>
+                                    <td><label class="control-label">Логин</label></td>
+                                    <td colspan="2"><input type="text" name="login" class="form-control" /></td>
+                                </tr>
+                                <tr>
+                                    <td><label class="control-label">Пароль</label></td>
+                                    <td colspan="2"><input type="text" name="pass" class="form-control" /></td>
+                                </tr>
+                                <tr>
+                                    <td><label class="control-label">Фамилия</label></td>
+                                    <td colspan="2"><input type="text" name="surname" class="form-control" /></td>
+                                </tr>
+                                <tr>
+                                    <td><label class="control-label">Имя</label></td>
+                                    <td colspan="2"><input type="text" name="firstname" class="form-control" /></td>
+                                </tr>
+                                <tr>
+                                    <td><label class="control-label">Роль</label></td>
+                                    <td colspan="2">
+                                        <select name="role" class="form-control">
+                                            <option value="1">Администратор</option>
+                                            <option value="2">Родитель</option>
+                                            <option value="3">Член РК/Учитель</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><input type="button" name="add" value="Добавить" class="btn btn-default" /></td>
+                                    <td><input type="button" name="del" value="Удалить" class="btn btn-default" /></td>
+                                    <td><input type="button" name="upd" value="Обновить" class="btn btn-default" /></td>
+                                </tr>
+                            </table>
+                            <div id="msg_display"></div>
+                        </form>
+                    </div>
+                    <script type="text/javascript" src="js/users.js"></script>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2020 - EducationHelper</p>
+    </footer>
+    <script type="text/javascript" src="js/login.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+            asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+            asp-fallback-test="window.jQuery"
+            crossorigin="anonymous"
+            integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+    </script>
+    <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+            asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+            asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+            crossorigin="anonymous"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+    </script>
+    <script>
+        checkAuthAsync().then(changeIndex);
+    </script>
+    </div>
 </body>
 </html>

@@ -67,11 +67,13 @@ namespace EducationHelper.Controllers
         [HttpPost]
         public async Task<ActionResult<Event>> Post(Event _event)
         {
+            User user = db.Users.FirstOrDefault(p => p.Login == User.Identity.Name);
             if (_event == null)
             {
                 return BadRequest();
             }
 
+            _event.AuthorId = user.Id;
             db.Events.Add(_event);
             await db.SaveChangesAsync();
             return Ok(_event);

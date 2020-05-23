@@ -3,15 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:EHMobile;assembly=EHMobile"
              mc:Ignorable="d"
              x:Class="EHMobile.Views.EventDetailPage"
              Title="{Binding Title}"
              x:Name="BrowseEventDetailPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:ImageConverter x:Key="imageConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Добавить файл" Clicked="AddFile_Clicked" />
     </ContentPage.ToolbarItems>
 
-    <RefreshView IsRefreshing="{Binding IsBusy, Mode=TwoWay}" Command="{Binding LoadItemsCommand}">
         <StackLayout x:Name="sL" Spacing="20" Padding="15">
             <Label Text="Событие:" FontSize="Medium" />
             <Label Text="{Binding Item.Name}" d:Text="Item name" FontSize="Small"/>
@@ -21,18 +26,35 @@
             <Label Text="{Binding UserEvent.Progress}" d:Text="0" FontSize="Small"/>
             <Label Text="Стоимость" FontSize="Medium" />
             <Label Text="{Binding Userevent.Total}" d:Text="0" FontSize="Small"/>
-            <!--<Button Margin="0,10,0,0" Text="Документы"
-                            BackgroundColor="{StaticResource Primary}"
-                            TextColor="White" 
-                    Clicked="OpenDocks"/>
-            <Button Margin="0,10,0,0" Text="Участники"
-                            BackgroundColor="{StaticResource Primary}"
-                            TextColor="White"
-                            Clicked="OpenUsers"/>
-            <Button Margin="0,10,0,0" Text="Отправить в архив"
-                            BackgroundColor="{StaticResource Primary}"
-                            TextColor="White"
-                            Clicked="RemoveEvent"/>-->
-        </StackLayout>
-    </RefreshView>
+            <Label Text="Файлы:" FontSize="Medium" />
+        <RefreshView IsRefreshing="{Binding IsBusy, Mode=TwoWay}" Command="{Binding LoadItemsCommand}">
+            <CollectionView x:Name="UserEventDocumentsCollectionView"
+                ItemsSource="{Binding UserEventDocuments}">
+                <d:CollectionView.ItemsSource>
+                    <d:Array Type="{d:Type d:Image}">
+                        <d:Image></d:Image>
+                        <d:Image></d:Image>
+                        <d:Image></d:Image>
+                    </d:Array>
+                </d:CollectionView.ItemsSource>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="10" Orientation="Horizontal">
+                            <Image Source="{Binding File, Converter={StaticResource imageConverter}}"
+                                Aspect="AspectFill"
+                                   WidthRequest="100" HeightRequest="100" HorizontalOptions="StartAndExpand" 
+                                   VerticalOptions="StartAndExpand">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Tapped="OnImageNameTapped"
+                                        NumberOfTapsRequired="1" />
+                                </Image.GestureRecognizers>
+                            </Image>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </StackLayout>
+    
 </ContentPage>

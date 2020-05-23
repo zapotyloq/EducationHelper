@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:EHMobile;assembly=EHMobile"
+             mc:Ignorable="d"
+             x:Class="EHMobile.Views.VoteDetailPage"
+             Title="{Binding Title}"
+             x:Name="BrowseVoteDetailPage">
+
+    <StackLayout x:Name="sL" Spacing="20" Padding="15">
+            <Label Text="Название:" FontSize="Medium" />
+            <Label Text="{Binding Item.Name}" d:Text="Item name" FontSize="Small"/>
+            <Label Text="Описание:" FontSize="Medium" />
+        <Label Text="{Binding Item.Description}" d:Text="Item description" FontSize="Small"/>
+        <RefreshView IsRefreshing="{Binding IsBusy, Mode=TwoWay}" Command="{Binding LoadItemsCommand}">
+            <CollectionView x:Name="UserEventDocumentsCollectionView"
+                ItemsSource="{Binding VoteOptions}">
+                <d:CollectionView.ItemsSource>
+                    <d:Array Type="{d:Type d:String}">
+                        <d:String></d:String>
+                        <d:String></d:String>
+                        <d:String></d:String>
+                    </d:Array>
+                </d:CollectionView.ItemsSource>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="10" Orientation="Horizontal">
+                            <Label Text="{Binding Description}"/>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </StackLayout>
+    
+</ContentPage>

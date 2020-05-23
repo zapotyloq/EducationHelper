@@ -3,7 +3,7 @@ using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-using EHMobile.Models;
+using Common.Models;
 using EHMobile.ViewModels;
 using Plugin.Media;
 using Plugin.Media.Abstractions;

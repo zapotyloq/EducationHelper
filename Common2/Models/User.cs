@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace EHMobile.Models
+namespace Common.Models
 {
     public class User
     {

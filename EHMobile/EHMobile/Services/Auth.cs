@@ -4,15 +4,16 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using EHMobile.Models;
+using Common.Models;
 using Newtonsoft.Json;
 
 namespace EHMobile.Services
 {
     public static class Auth
     {
-        //public const string HOST = "http://172.20.10.2:8888";
-        public const string HOST = "http://192.168.100.42:8888";
+        public const string HOST = "http://172.20.10.2:8888";
+        ///public const string HOST = "http://192.168.100.42:8888";
+        //public const string HOST = "http://192.168.0.103:8888";
 
         static User user;
         public static User User {

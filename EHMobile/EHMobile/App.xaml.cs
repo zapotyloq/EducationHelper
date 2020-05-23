@@ -13,7 +13,6 @@ namespace EHMobile
         {
             InitializeComponent();
 
-            DependencyService.Register<MockDataStore>();
             DependencyService.Register<EventDataStore>();
             MainPage = new MainPage();
         }

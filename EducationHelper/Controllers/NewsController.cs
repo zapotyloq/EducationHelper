@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Common.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -37,13 +38,15 @@ namespace EducationHelper.Controllers
 
         // POST 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<New>> Post(New _new)
         {
+            User user = db.Users.FirstOrDefault(p => p.Login == User.Identity.Name);
             if (_new == null)
             {
                 return BadRequest();
             }
-
+            _new.AuthorId = user.Id;
             db.News.Add(_new);
             await db.SaveChangesAsync();
             return Ok(_new);

@@ -4,7 +4,8 @@ using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-using EHMobile.Models;
+using Common.Models;
+using EHMobile.Services;
 
 namespace EHMobile.Views
 {
@@ -33,6 +34,7 @@ namespace EHMobile.Views
         async void Save_Clicked(object sender, EventArgs e)
         {
             MessagingCenter.Send(this, "AddItem", Item);
+            await new EventDataStore().AddItemAsync(Item);
             await Navigation.PopModalAsync();
         }
 

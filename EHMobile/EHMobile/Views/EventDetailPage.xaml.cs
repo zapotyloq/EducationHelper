@@ -3,7 +3,7 @@ using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-using EHMobile.Models;
+using Common.Models;
 using EHMobile.ViewModels;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
@@ -88,7 +88,7 @@ namespace EHMobile.Views
                 UserEventDocument ued = new UserEventDocument
                 {
                     File = new byte[fs.Length],
-                    FilePath = "ss",
+                    //FilePath = "ss",
                     UserEventId = viewModel.UserEvent.Id
                 };
 
@@ -137,6 +137,26 @@ namespace EHMobile.Views
             base.OnAppearing();
 
             viewModel.IsBusy = true;
+        }
+        async void OnImageNameTapped(object sender, EventArgs args)
+        {
+            try
+            {
+                //Code to execute on tapped event
+                User u = await Auth.GetUser();
+
+                if(u.Role=="1" || u.Id == viewModel.Item.AuthorId)
+                {
+                    var layout = (BindableObject)sender;
+                    var item = (UserEventDocument)layout.BindingContext;
+                    await Navigation.PushAsync(new EventDocumentDetailPage(new EventDocumentDetailViewModel(viewModel.Item, u, item)));
+                }
+                //imgPopup.Source = ImageSource.FromStream(() => new MemoryStream(viewModel.UserEventDocument.File));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

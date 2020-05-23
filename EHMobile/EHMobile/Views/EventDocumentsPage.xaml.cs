@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-using EHMobile.Models;
+using Common.Models;
 using EHMobile.Views;
 using EHMobile.ViewModels;
 using EHMobile.Services;
@@ -24,7 +24,6 @@ namespace EHMobile.Views
         public EventDocumentsPage(EventDocumentsViewModel viewModel)
         {
             InitializeComponent();
-
             BindingContext = this.viewModel = viewModel;
         }
 
@@ -33,9 +32,11 @@ namespace EHMobile.Views
             var layout = (BindableObject)sender;
             var item = (UserEventDocument)layout.BindingContext; 
             User u = await Auth.GetUser();
+            UserEvent ue =  await new UserEventDataStore().GetItemAsync(item.UserEventId);
+            User e_user = await new UserDataStore().GetItemAsync(ue.UserId);
             if (u.Id == viewModel.Event.AuthorId || u.Role == "1")
             {
-                //await Navigation.PushAsync(new EventUserDetailPage(new EventUserDetailViewModel(viewModel.Event,item)));
+                await Navigation.PushAsync(new EventDocumentDetailPage(new EventDocumentDetailViewModel(viewModel.Event, e_user,item)));
             }
         }
 

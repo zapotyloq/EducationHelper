@@ -7,7 +7,7 @@ using System.Net.Http;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
-using EHMobile.Models;
+using Common.Models;
 using Newtonsoft.Json;
 
 namespace EHMobile.Services
@@ -23,24 +23,14 @@ namespace EHMobile.Services
 
         public async Task<bool> AddItemAsync(UserEventDocument item)
         {
-            WebRequest request = WebRequest.Create(Auth.HOST + "/usereventdocuments");
-            request.Method = "POST";
-            request.Headers.Set("Authorization", "Bearer " + (string)App.Current.Properties["Token"]);
-            //byte[] byteArray;
-            //BinaryFormatter bf = new BinaryFormatter();
-            //using (MemoryStream ms = new MemoryStream())
-            //{
-            //    bf.Serialize(ms, item);
-            //    byteArray = ms.ToArray();
-            //}
-            //request.ContentType = "application/x-www-form-urlencoded";
-            //JsonConvert.SerializeObject(item);
-            //request.ContentLength = byteArray.Length;
+            //WebRequest request = WebRequest.Create(Auth.HOST + "/usereventdocuments");
+            //request.Method = "POST";
+            //request.Headers.Set("Authorization", "Bearer " + (string)App.Current.Properties["Token"]);
 
             var json = JsonConvert.SerializeObject(item);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var    response = await new HttpClient().PostAsync(Auth.HOST + "/usereventdocuments", content);
+            var response = await new HttpClient().PostAsync(Auth.HOST + "/usereventdocuments", content);
             //using (Stream dataStream = request.GetRequestStream())
             //{
             //    dataStream.Write(byteArray, 0, byteArray.Length);
@@ -50,25 +40,9 @@ namespace EHMobile.Services
 
         public async Task<bool> UpdateItemAsync(UserEventDocument item)
         {
-            //var oldItem = items.Where((UserEventDocument arg) => arg.Id == item.Id).FirstOrDefault();
-            //items.Remove(oldItem);
-            //items.Add(item);
-            WebRequest request = WebRequest.Create(Auth.HOST + "/usereventdocuments/");
-            request.Method = "POST";
-            byte[] byteArray;
-            BinaryFormatter bf = new BinaryFormatter();
-            using (MemoryStream ms = new MemoryStream())
-            {
-                bf.Serialize(ms, item);
-                byteArray = ms.ToArray();
-            }
-            request.ContentType = "application/x-www-form-urlencoded";
-            request.ContentLength = byteArray.Length;
-
-            using (Stream dataStream = request.GetRequestStream())
-            {
-                dataStream.Write(byteArray, 0, byteArray.Length);
-            }
+            var json = JsonConvert.SerializeObject(item);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await new HttpClient().PutAsync(Auth.HOST + "/usereventdocuments", content);
             return await Task.FromResult(true);
         }
 
@@ -111,7 +85,6 @@ namespace EHMobile.Services
             //HttpClient client = GetClient();
             //string result = await client.GetStringAsync(Url);
             return JsonConvert.DeserializeObject<List<UserEventDocument>>(result);
-            //return await Task.FromResult(items.FirstOrDefault(s => s.Id == id));
         }
 
         public async Task<List<UserEventDocument>> GetBEDAsync(int eventid)
@@ -132,8 +105,6 @@ namespace EHMobile.Services
             }
             response.Close();
 
-            //HttpClient client = GetClient();
-            //string result = await client.GetStringAsync(Url);
             return JsonConvert.DeserializeObject<List<UserEventDocument>>(result);
             //return await Task.FromResult(items.FirstOrDefault(s => s.Id == id));
         }

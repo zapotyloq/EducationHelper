@@ -6,23 +6,37 @@
              mc:Ignorable="d"
              x:Class="EHMobile.Views.EventDocumentDetailPage"
              Title="{Binding Title}">
-    <RefreshView IsRefreshing="{Binding IsBusy, Mode=TwoWay}" Command="{Binding LoadItemsCommand}">
-        <StackLayout x:Name="sL" Spacing="20" Padding="15">
+    <AbsoluteLayout Padding="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+        <StackLayout x:Name="sL" Spacing="20" Padding="15" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
             <Label Text="Событие:" FontSize="Medium" />
-            <Label Text="{Binding Event.Name}" d:Text="Item name" FontSize="Small"/>            
+            <Label Text="{Binding Event.Name}" d:Text="Item name" FontSize="Small"/>
             <Label Text="Файл:" FontSize="Medium" />
-            <Label Text="{Binding UserEventDocument.FilePath}" d:Text="0" FontSize="Small"/>
+            <Image x:Name="doc" Aspect="AspectFill" Source="{Binding ImageSource}"
+                   WidthRequest="100" HeightRequest="100" HorizontalOptions="StartAndExpand" 
+                   VerticalOptions="StartAndExpand"> 
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Tapped="OnImageNameTapped"
+                        NumberOfTapsRequired="1" />
+                </Image.GestureRecognizers>
+            </Image>
+            <Label Text="Статус:" FontSize="Medium" />
+            <Label x:Name="is_m_label" d:Text="0" FontSize="Small"/>
+            <Label Text="Сумма:" FontSize="Medium" />
+            <Label x:Name="amount_label" Text="{Binding UserEventDocument.Amount}" d:Text="0" FontSize="Small"/>
+            <Label Text="Сумма(копеек):" FontSize="Medium" />
+            <Editor x:Name="sum"/>
             <Button Margin="0,10,0,0" Text="Отметить"
                         TextColor="White" 
-                Clicked="Mark"/>
-            <!--<Button Margin="0,10,0,0" Text="Участники"
-                        BackgroundColor="{StaticResource Primary}"
-                        TextColor="White"
-                        Clicked="OpenUsers"/>
-        <Button Margin="0,10,0,0" Text="Отправить в архив"
-                        BackgroundColor="{StaticResource Primary}"
-                        TextColor="White"
-                        Clicked="RemoveEvent"/>-->
+                        Clicked="Mark"/>
         </StackLayout>
-    </RefreshView>
+        <ContentView x:Name="popupImageView" BackgroundColor="#C0808080" Padding="10, 0" IsVisible="false" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+            <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                <StackLayout BackgroundColor="White">
+                    <Image x:Name="imgPopup" Aspect="AspectFill" Source="{Binding ImageSource}"></Image>
+                    <Button Text="OK" Clicked="Button_Clicked"></Button>
+                </StackLayout>
+            </StackLayout>
+        </ContentView>
+    </AbsoluteLayout>
 </ContentPage>

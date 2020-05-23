@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using EHMobile.Models;
+using Common.Models;
 using EHMobile.Services;
 using Xamarin.Forms;
 

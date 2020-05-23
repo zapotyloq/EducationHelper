@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 
-using EHMobile.Models;
+using Common.Models;
 using EHMobile.Views;
 using EHMobile.Services;
 
@@ -39,7 +39,7 @@ namespace EHMobile.ViewModels
             try
             {
                 Items.Clear();
-                var items = await ((UserDataStore)UDataStore).GetUsersForEventAsync(Event.Id);
+                var items = await ((UserDataStore)UDataStore).GetUsersIsNotEventAsync(Event.Id);
                 foreach (var item in items)
                 {
                     Items.Add(item);

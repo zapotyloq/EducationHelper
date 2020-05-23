@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:local="clr-namespace:EHMobile;assembly=EHMobile"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -7,7 +8,11 @@
              x:Class="EHMobile.Views.EventDocumentsPage"
              Title="{Binding Title}"
              x:Name="BrowseEventDocumentsPage">
-
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:TextColorConverter x:Key="colorConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <RefreshView IsRefreshing="{Binding IsBusy, Mode=TwoWay}" Command="{Binding LoadItemsCommand}">
         <CollectionView x:Name="EventDocumentsCollectionView"
                 ItemsSource="{Binding Items}">
@@ -24,11 +29,12 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <StackLayout Padding="10">
-                        <Label Text="{Binding FilePath}" 
+                        <Label Text="{Binding Id}" 
                                 d:Text="{Binding .}"
                                 LineBreakMode="NoWrap" 
                                 Style="{DynamicResource ListItemTextStyle}" 
-                                FontSize="16" />
+                                FontSize="16"
+                                TextColor="{Binding Is_Marked, Converter={StaticResource colorConverter}}"/>
                         <StackLayout.GestureRecognizers>
                             <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OnItemSelected"></TapGestureRecognizer>
                         </StackLayout.GestureRecognizers>

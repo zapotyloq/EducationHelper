@@ -1,4 +1,4 @@
-﻿using EHMobile.Models;
+﻿using Common.Models;
 using EHMobile.Services;
 using System;
 using System.Collections.Generic;
@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using EHMobile.Models;
 
 namespace EHMobile.Views
 {
@@ -38,7 +39,6 @@ namespace EHMobile.Views
 
         async void ChangeMenu()
         {
-            
             menuItems.Clear();
             //menuItems.Add(new HomeMenuItem { Id = MenuItemType.Browse, Title = "Browse" });
             menuItems.Add(new HomeMenuItem { Id = MenuItemType.About, Title = "About" });
@@ -49,6 +49,7 @@ namespace EHMobile.Views
             else
             {
                 menuItems.Add(new HomeMenuItem { Id = MenuItemType.Events, Title = "Мероприятия" });
+                menuItems.Add(new HomeMenuItem { Id = MenuItemType.Votes, Title = "Голосования" });
                 menuItems.Add(new HomeMenuItem { Id = MenuItemType.Logout, Title = "Выход" });
             }
             ListViewMenu.ItemsSource = menuItems;

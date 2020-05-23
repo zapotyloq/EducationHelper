@@ -59,7 +59,7 @@ namespace EducationHelper.Controllers
         public async Task<ActionResult<IEnumerable<UserEventDocument>>> GetByEventId(int eventid)
         {
             List<UserEventDocument> res = new List<UserEventDocument>();
-            await db.UserEvents.Where(p => p.EventId == eventid).ForEachAsync(ue => db.UserEventDocuments.Where(p => p.UserEventId == ue.Id).ToList().ForEach(f => res.Add(f)));
+            db.UserEvents.Where(p => p.EventId == eventid).ToList().ForEach(ue => db.UserEventDocuments.Where(p => p.UserEventId == ue.Id).ToList().ForEach(f => res.Add(f)));
             return new ObjectResult(res);
         }
 

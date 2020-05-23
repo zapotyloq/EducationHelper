@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-using EHMobile.Models;
+using Common.Models;
 using EHMobile.Views;
 using EHMobile.ViewModels;
 using EHMobile.Services;
@@ -26,6 +26,7 @@ namespace EHMobile.Views
             InitializeComponent();
 
             BindingContext = this.viewModel = viewModel;
+            
         }
 
         async void OnItemSelected(object sender, EventArgs args)
@@ -40,8 +41,8 @@ namespace EHMobile.Views
         async void AddItem_Clicked(object sender, EventArgs e)
         {
             User u = await Auth.GetUser();
-            if (u.Id == viewModel.Event.AuthorId || u.Role == "1") ;
-                //await Navigation.PushModalAsync(new NavigationPage(new NewEventPage()));
+            if (u.Id == viewModel.Event.AuthorId || u.Role == "1")
+                await Navigation.PushModalAsync(new NavigationPage(new NewEventUserPage(new NewEventUserViewModel(viewModel.Event))));
         }
 
         protected override void OnAppearing()

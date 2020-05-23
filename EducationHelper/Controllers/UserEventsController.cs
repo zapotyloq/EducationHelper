@@ -32,6 +32,16 @@ namespace EducationHelper.Controllers
         public async Task<ActionResult<UserEvent>> Get(int id)
         {
             User user = db.Users.FirstOrDefault(p => p.Login == User.Identity.Name);
+            UserEvent res = await db.UserEvents.FirstOrDefaultAsync(x => x.Id == id);
+            if (res == null)
+                return NotFound();
+            return new ObjectResult(res);
+        }
+        [HttpGet("ByEvId/{id}")]
+        [Authorize]
+        public async Task<ActionResult<UserEvent>> ByEvId(int id)
+        {
+            User user = db.Users.FirstOrDefault(p => p.Login == User.Identity.Name);
             UserEvent res = await db.UserEvents.FirstOrDefaultAsync(x => x.EventId == id && x.UserId == Convert.ToInt32(user.Id));
             if (res == null)
                 return NotFound();

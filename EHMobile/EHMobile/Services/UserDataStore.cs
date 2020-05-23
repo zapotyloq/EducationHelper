@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using EHMobile.Models;
+using Common.Models;
 using Newtonsoft.Json;
 
 namespace EHMobile.Services
@@ -104,8 +104,31 @@ namespace EHMobile.Services
             return JsonConvert.DeserializeObject<IEnumerable<User>>(result);
             //return await Task.FromResult(items);
         }
+        
+    public async Task<IEnumerable<User>> GetUsersIsNotEventAsync(int eventId)
+    {
+        WebRequest request = WebRequest.Create(Auth.HOST + "/users/GetUsersIsNotEvent/" + eventId);
+        //request2.Headers.Set("Accept", "application/json");
+        ((HttpWebRequest)request).Accept = "application/json";
+        request.Headers.Set("Authorization", "Bearer " + (string)App.Current.Properties["Token"]);
+        WebResponse response = await request.GetResponseAsync();
 
-        public async Task<IEnumerable<User>> GetUsersForEventAsync(int eventId)
+        string result = "";
+        using (Stream stream = response.GetResponseStream())
+        {
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                result += reader.ReadToEnd();
+            }
+        }
+        response.Close();
+
+        //HttpClient client = GetClient();
+        //string result = await client.GetStringAsync(Url);
+        return JsonConvert.DeserializeObject<IEnumerable<User>>(result);
+        //return await Task.FromResult(items);
+    }
+    public async Task<IEnumerable<User>> GetUsersForEventAsync(int eventId)
         {
             WebRequest request = WebRequest.Create(Auth.HOST + "/users/GetForEvent/" + eventId);
             //request2.Headers.Set("Accept", "application/json");

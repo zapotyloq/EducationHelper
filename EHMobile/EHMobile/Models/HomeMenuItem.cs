@@ -9,6 +9,7 @@ namespace EHMobile.Models
         Browse,
         Login,
         Events,
+        Votes,
         About,
         Logout
     }

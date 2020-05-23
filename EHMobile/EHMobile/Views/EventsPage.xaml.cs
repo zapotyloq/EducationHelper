@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-using EHMobile.Models;
+using Common.Models;
 using EHMobile.Views;
 using EHMobile.ViewModels;
 using EHMobile.Services;
@@ -32,8 +32,13 @@ namespace EHMobile.Views
         {
             var layout = (BindableObject)sender;
             var item = (Event)layout.BindingContext;
-            var ue = await new UserEventDataStore().GetItemAsync(item.Id, Auth.User.Id);
-            await Navigation.PushAsync(new EventDetailPage(new EventDetailViewModel(item,ue)));
+            if (Auth.User.Role == "2")
+            {
+                var ue = await new UserEventDataStore().GetItemAsync(item.Id, Auth.User.Id);
+                var ueds = await new UserEventDocumentDataStore().GetUEDAsync(ue.Id);
+                await Navigation.PushAsync(new EventDetailPage(new EventDetailViewModel(item, ue, ueds)));
+            }
+            else await Navigation.PushAsync(new EventDetailPage(new EventDetailViewModel(item, null)));
         }
 
         async void AddItem_Clicked(object sender, EventArgs e)

@@ -5,30 +5,30 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 
-using EHMobile.Models;
+using Common.Models;
 using EHMobile.Views;
 using EHMobile.Services;
 
 namespace EHMobile.ViewModels
 {
-    public class ItemsViewModel : BaseViewModel
+    public class VotesViewModel : BaseViewModel
     {
-        public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
-        public ObservableCollection<Item> Items { get; set; }
+        public IDataStore<Vote> DataStore => new VoteDataStore();
+        public ObservableCollection<Vote> Items { get; set; }
         public Command LoadItemsCommand { get; set; }
 
-        public ItemsViewModel()
+        public VotesViewModel()
         {
-            Title = "Browse";
-            Items = new ObservableCollection<Item>();
+            Title = "Голосования";
+            Items = new ObservableCollection<Vote>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
-            MessagingCenter.Subscribe<NewItemPage, Item>(this, "AddItem", async (obj, item) =>
+            /*MessagingCenter.Subscribe<NewEventPage, Event>(this, "AddItem", async (obj, item) =>
             {
-                var newItem = item as Item;
+                var newItem = item as Event;
                 Items.Add(newItem);
                 await DataStore.AddItemAsync(newItem);
-            });
+            });*/
         }
 
         async Task ExecuteLoadItemsCommand()

@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 using Xamarin.Forms;
 
-using EHMobile.Models;
+using Common.Models;
 using EHMobile.Services;
 
 namespace EHMobile.ViewModels

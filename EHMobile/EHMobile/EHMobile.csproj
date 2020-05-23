@@ -12,9 +12,14 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.2" />
     <PackageReference Include="Xam.Plugin.Media" Version="5.0.1" />
     <PackageReference Include="Xamarin.Forms" Version="4.5.0.617" />  
     <PackageReference Include="Xamarin.Essentials" Version="1.5.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common2\Common2.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,14 +29,23 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\VoteDetailPage.xaml.cs">
+      <DependentUpon>VoteDetailPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\EventDocumentDetailPage.xaml.cs">
       <DependentUpon>EventDocumentDetailPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\VotesPage.xaml.cs">
+      <DependentUpon>VotesPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\EventUserDetailPage.xaml.cs">
       <DependentUpon>EventUserDetailPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\EventDocumentsPage.xaml.cs">
       <DependentUpon>EventDocumentsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\NewEventUserPage.xaml.cs">
+      <DependentUpon>NewEventUserPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\EventUsersPage.xaml.cs">
       <DependentUpon>EventUsersPage.xaml</DependentUpon>

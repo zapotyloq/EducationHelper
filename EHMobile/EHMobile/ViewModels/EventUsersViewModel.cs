@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 
-using EHMobile.Models;
+using Common.Models;
 using EHMobile.Views;
 using EHMobile.Services;
 
