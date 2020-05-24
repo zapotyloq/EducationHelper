@@ -42,13 +42,10 @@ namespace EHMobile.Services
 
         public async Task<bool> AddItemAsync(Event item)
         {
-            WebRequest request = WebRequest.Create(Auth.HOST + "/events");
-            item.AuthorId = Auth.User.Id;
-            request.Method = "POST";
-            request.Headers.Set("Authorization", "Bearer " + (string)App.Current.Properties["Token"]);
             var json = JsonConvert.SerializeObject(item);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + (string)App.Current.Properties["Token"]);
             var response = await new HttpClient().PostAsync(Auth.HOST + "/events", content);
 
             return await Task.FromResult(true);

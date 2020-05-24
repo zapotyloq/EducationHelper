@@ -29,6 +29,27 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\NewVotePage.xaml.cs">
+      <DependentUpon>NewVotePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\NewVoteOptionPage.xaml.cs">
+      <DependentUpon>NewVoteOptionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\VoteOptionDetailPage.xaml.cs">
+      <DependentUpon>VoteOptionDetailPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\VoteUserDetailPage.xaml.cs">
+      <DependentUpon>VoteUserDetailPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\NewVoteUserPage.xaml.cs">
+      <DependentUpon>NewVoteUserPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\VoteOptionsPage.xaml.cs">
+      <DependentUpon>VoteOptionsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\VoteUsersPage.xaml.cs">
+      <DependentUpon>VoteUsersPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\VoteDetailPage.xaml.cs">
       <DependentUpon>VoteDetailPage.xaml</DependentUpon>
     </Compile>

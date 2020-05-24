@@ -16,11 +16,11 @@ namespace EHMobile.Views
     // Learn more about making custom code visible in the Xamarin.Forms previewer
     // by visiting https://aka.ms/xamarinforms-previewer
     [DesignTimeVisible(false)]
-    public partial class EventUserDetailPage : ContentPage
+    public partial class VoteUserDetailPage : ContentPage
     {
-        EventUserDetailViewModel viewModel;
+        VoteUserDetailViewModel viewModel;
 
-        public EventUserDetailPage(EventUserDetailViewModel viewModel)
+        public VoteUserDetailPage(VoteUserDetailViewModel viewModel)
         {
             InitializeComponent();
 
@@ -28,7 +28,7 @@ namespace EHMobile.Views
         }
         public async void RmvUser(object sender, EventArgs args)
         {
-            await viewModel.UE_DataStore.DeleteItemAsync(viewModel.UserEvent.Id);
+            await viewModel.UV_DataStore.DeleteItemAsync(viewModel.UserVote.Id);
             await Navigation.PopAsync();
         }
         protected override void OnAppearing()

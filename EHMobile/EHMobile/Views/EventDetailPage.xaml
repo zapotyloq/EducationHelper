@@ -17,14 +17,14 @@
         <ToolbarItem Text="Добавить файл" Clicked="AddFile_Clicked" />
     </ContentPage.ToolbarItems>
 
-        <StackLayout x:Name="sL" Spacing="20" Padding="15">
+        <StackLayout x:Name="sL" Spacing="5" Padding="5">
             <Label Text="Событие:" FontSize="Medium" />
             <Label Text="{Binding Item.Name}" d:Text="Item name" FontSize="Small"/>
             <Label Text="Описание:" FontSize="Medium" />
             <Label Text="{Binding Item.Description}" d:Text="Item description" FontSize="Small"/>
             <Label Text="Оплачено:" FontSize="Medium" />
             <Label Text="{Binding UserEvent.Progress}" d:Text="0" FontSize="Small"/>
-            <Label Text="Стоимость" FontSize="Medium" />
+            <Label Text="Стоимость:" FontSize="Medium" />
             <Label Text="{Binding Userevent.Total}" d:Text="0" FontSize="Small"/>
             <Label Text="Файлы:" FontSize="Medium" />
         <RefreshView IsRefreshing="{Binding IsBusy, Mode=TwoWay}" Command="{Binding LoadItemsCommand}">

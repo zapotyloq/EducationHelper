@@ -17,39 +17,34 @@ namespace EHMobile.Views
     // Learn more about making custom code visible in the Xamarin.Forms previewer
     // by visiting https://aka.ms/xamarinforms-previewer
     [DesignTimeVisible(false)]
-    public partial class VotesPage : ContentPage
+    public partial class VoteUsersPage : ContentPage
     {
-        VotesViewModel viewModel;
+        VoteUsersViewModel viewModel;
 
-        public VotesPage()
+        public VoteUsersPage(VoteUsersViewModel viewModel)
         {
             InitializeComponent();
 
-            BindingContext = viewModel = new VotesViewModel();
+            BindingContext = this.viewModel = viewModel;
+            
         }
 
         async void OnItemSelected(object sender, EventArgs args)
         {
             var layout = (BindableObject)sender;
-            var item = (Vote)layout.BindingContext;
-            var uv = await new UserVoteDataStore().GetItemAsync(item.Id, Auth.User.Id);
-            var vos = await new VoteOptionDataStore().GetItemsByVoteIdAsync(item.Id);
-            if (Auth.User.Role == "2")
+            var item = (User)layout.BindingContext; 
+            User u = await Auth.GetUser();
+            if (u.Id == viewModel.Vote.AuthorId || u.Role == "1")
             {
-                
-                //var ueds = await new UserEventDocumentDataStore().GetUEDAsync(ue.Id);
-                await Navigation.PushAsync(new VoteDetailPage(new VoteDetailViewModel(item,uv,vos)));
+                 await Navigation.PushAsync(new VoteUserDetailPage(new VoteUserDetailViewModel(viewModel.Vote,item)));
             }
-            else await Navigation.PushAsync(new VoteDetailPage(new VoteDetailViewModel(item,uv,vos)));
         }
 
         async void AddItem_Clicked(object sender, EventArgs e)
         {
             User u = await Auth.GetUser();
-            if (u.Role == "3" || u.Role == "1")
-            {
-                await Navigation.PushModalAsync(new NavigationPage(new NewVotePage()));
-            }
+            if (u.Id == viewModel.Vote.AuthorId || u.Role == "1") { }
+                await Navigation.PushModalAsync(new NavigationPage(new NewVoteUserPage(new NewVoteUserViewModel(viewModel.Vote))));
         }
 
         protected override void OnAppearing()

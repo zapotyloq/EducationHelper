@@ -31,14 +31,11 @@ namespace EHMobile.Services
 
         public async Task<bool> AddItemAsync(Vote item)
         {
-            WebRequest request = WebRequest.Create(Auth.HOST + "/votes");
-            item.AuthorId = Auth.User.Id;
-            request.Method = "POST";
-            request.Headers.Set("Authorization", "Bearer " + (string)App.Current.Properties["Token"]);
             var json = JsonConvert.SerializeObject(item);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await new HttpClient().PostAsync(Auth.HOST + "/votes", content);
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + (string)App.Current.Properties["Token"]);
+            var response = await client.PostAsync(Auth.HOST + "/votes", content);
 
             return await Task.FromResult(true);
         }

@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="EHMobile.Views.VoteOptionDetailPage"
+             Title="{Binding Title}">
+    <RefreshView IsRefreshing="{Binding IsBusy, Mode=TwoWay}" Command="{Binding LoadItemsCommand}">
+        <StackLayout x:Name="sL" Spacing="5" Padding="5">
+            <Label Text="{Binding Vote.Name}" d:Text="Item name" FontSize="Medium"/>
+            <Editor Text="{Binding VoteOption.Option}" d:Text="Item description" FontSize="Small"/>
+            <Button Margin="0,10,0,0" Text="Сохранить"
+                        TextColor="White" 
+                Clicked="SaveOption"/>
+            <Button Margin="0,10,0,0" Text="Удалить"
+                        TextColor="White" 
+                Clicked="RmvOption"/>
+            <!--<Button Margin="0,10,0,0" Text="Участники"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="White"
+                        Clicked="OpenUsers"/>
+        <Button Margin="0,10,0,0" Text="Отправить в архив"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="White"
+                        Clicked="RemoveEvent"/>-->
+        </StackLayout>
+    </RefreshView>
+</ContentPage>

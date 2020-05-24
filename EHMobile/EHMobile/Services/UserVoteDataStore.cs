@@ -32,10 +32,6 @@ namespace EHMobile.Services
 
         public async Task<bool> AddItemAsync(UserVote item)
         {
-            //WebRequest request = WebRequest.Create(Auth.HOST + "/userevents");
-            //request.Method = "POST";
-            //request.Headers.Set("Authorization", "Bearer " + (string)App.Current.Properties["Token"]);
-
             var json = JsonConvert.SerializeObject(item);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -45,16 +41,16 @@ namespace EHMobile.Services
 
         public async Task<bool> UpdateItemAsync(UserVote item)
         {
-            var oldItem = items.Where((UserVote arg) => arg.Id == item.Id).FirstOrDefault();
-            items.Remove(oldItem);
-            items.Add(item);
+            var json = JsonConvert.SerializeObject(item);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
 
+            var response = await new HttpClient().PutAsync(Auth.HOST + "/uservotes", content);
             return await Task.FromResult(true);
         }
 
         public async Task<bool> DeleteItemAsync(int id)
         {
-            WebRequest request = WebRequest.Create(Auth.HOST + "/userevotes/" + id);
+            WebRequest request = WebRequest.Create(Auth.HOST + "/uservotes/" + id);
             request.Method = "DELETE";
             ((HttpWebRequest)request).Accept = "application/json";
             request.Headers.Set("Authorization", "Bearer " + (string)App.Current.Properties["Token"]);
@@ -110,7 +106,25 @@ namespace EHMobile.Services
             return JsonConvert.DeserializeObject<UserVote>(result);
             //return await Task.FromResult(items.FirstOrDefault(s => s.Id == id));
         }
+        public UserVote GetItemByVoteId(int id)
+        {
+            WebRequest request = WebRequest.Create(Auth.HOST + "/uservotes/byvoteId/" + id);
+            //request2.Headers.Set("Accept", "application/json");
+            ((HttpWebRequest)request).Accept = "application/json";
+            request.Headers.Set("Authorization", "Bearer " + (string)App.Current.Properties["Token"]);
+            WebResponse response = request.GetResponse();
 
+            string result = "";
+            using (Stream stream = response.GetResponseStream())
+            {
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    result += reader.ReadToEnd();
+                }
+            }
+            response.Close();
+            return JsonConvert.DeserializeObject<UserVote>(result);
+        }
         public async Task<UserVote> GetItemAsync(int eventId, int userId)
         {
             WebRequest request = WebRequest.Create(Auth.HOST + "/uservotes/getbyids?voteid=" + eventId +"&userid=" + userId);
@@ -138,7 +152,7 @@ namespace EHMobile.Services
 
         public async Task<IEnumerable<UserVote>> GetItemsAsync(bool forceRefresh = false)
         {
-            WebRequest request = WebRequest.Create(Auth.HOST +"/userevote");
+            WebRequest request = WebRequest.Create(Auth.HOST +"/uservotes");
             //request2.Headers.Set("Accept", "application/json");
             ((HttpWebRequest)request).Accept = "application/json";
             request.Headers.Set("Authorization", "Bearer " + (string)App.Current.Properties["Token"]);

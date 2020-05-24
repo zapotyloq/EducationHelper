@@ -26,7 +26,6 @@ namespace EHMobile.Views
             InitializeComponent();
 
             BindingContext = this.viewModel = viewModel;
-
             if (Auth.User.Id == viewModel.Item.AuthorId || Auth.User.Role == "1")
             {
                 Button btn_docks = new Button
@@ -62,19 +61,19 @@ namespace EHMobile.Views
 
         async void OpenDocks(object sender, EventArgs args)
         {
-            //User u = await Auth.GetUser();
-            //if(u.Id == viewModel.Item.AuthorId || u.Role == "1")
-            //{
-            //    await Navigation.PushAsync(new EventDocumentsPage(new EventDocumentsViewModel(viewModel.Item)));
-            //}
+            User u = await Auth.GetUser();
+            if (u.Id == viewModel.Item.AuthorId || u.Role == "1")
+            {
+                await Navigation.PushAsync(new VoteOptionsPage(new VoteOptionsViewModel(viewModel.Item)));
+            }
         }
         async void OpenUsers(object sender, EventArgs args)
         {
-            //User u = await Auth.GetUser();
-            //if (u.Id == viewModel.Item.AuthorId || u.Role == "1")
-            //{
-            //    await Navigation.PushAsync(new EventUsersPage(new EventUsersViewModel(viewModel.Item)));
-            //}
+            User u = await Auth.GetUser();
+            if (u.Id == viewModel.Item.AuthorId || u.Role == "1")
+            {
+                await Navigation.PushAsync(new VoteUsersPage(new VoteUsersViewModel(viewModel.Item)));
+            }
         }
         async void RemoveEvent(object sender, EventArgs args)
         {
@@ -98,6 +97,16 @@ namespace EHMobile.Views
             base.OnAppearing();
 
             viewModel.IsBusy = true;
+        }
+        async void OnItemSelected(object sender, EventArgs args)
+        {
+            var layout = (BindableObject)sender;
+            var item = (VoteOption)layout.BindingContext;
+            if (viewModel.UserVote.ChoiseId == 0)
+            {
+                viewModel.UserVote.ChoiseId = item.Id;
+                await new UserVoteDataStore().UpdateItemAsync(viewModel.UserVote);
+            }
         }
     }
 }

@@ -151,5 +151,44 @@ namespace EHMobile.Services
             return JsonConvert.DeserializeObject<IEnumerable<User>>(result);
             //return await Task.FromResult(items);
         }
-    }
+        public async Task<IEnumerable<User>> GetUsersForVoteAsync(int voteId)
+        {
+            WebRequest request = WebRequest.Create(Auth.HOST + "/users/GetForVote/" + voteId);
+            //request2.Headers.Set("Accept", "application/json");
+            ((HttpWebRequest)request).Accept = "application/json";
+            request.Headers.Set("Authorization", "Bearer " + (string)App.Current.Properties["Token"]);
+            WebResponse response = await request.GetResponseAsync();
+
+            string result = "";
+            using (Stream stream = response.GetResponseStream())
+            {
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    result += reader.ReadToEnd();
+                }
+            }
+            response.Close();
+            return JsonConvert.DeserializeObject<IEnumerable<User>>(result);
+        }
+        public async Task<IEnumerable<User>> GetUsersIsNotVoteAsync(int voteId)
+        {
+            WebRequest request = WebRequest.Create(Auth.HOST + "/users/GetUsersIsNotVote/" + voteId);
+            //request2.Headers.Set("Accept", "application/json");
+            ((HttpWebRequest)request).Accept = "application/json";
+            request.Headers.Set("Authorization", "Bearer " + (string)App.Current.Properties["Token"]);
+            WebResponse response = await request.GetResponseAsync();
+
+            string result = "";
+            using (Stream stream = response.GetResponseStream())
+            {
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    result += reader.ReadToEnd();
+                }
+            }
+            response.Close();
+
+            return JsonConvert.DeserializeObject<IEnumerable<User>>(result);
+        }
+    } 
 }

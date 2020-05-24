@@ -8,14 +8,16 @@
              x:Class="EHMobile.Views.VoteDetailPage"
              Title="{Binding Title}"
              x:Name="BrowseVoteDetailPage">
-
-    <StackLayout x:Name="sL" Spacing="20" Padding="15">
-            <Label Text="Название:" FontSize="Medium" />
-            <Label Text="{Binding Item.Name}" d:Text="Item name" FontSize="Small"/>
-            <Label Text="Описание:" FontSize="Medium" />
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:VoteOptionTextColorConverter x:Key="colorConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <StackLayout x:Name="sL" Spacing="5" Padding="5">
+        <Label Text="{Binding Item.Name}" d:Text="Item name" FontSize="Title"/>
         <Label Text="{Binding Item.Description}" d:Text="Item description" FontSize="Small"/>
         <RefreshView IsRefreshing="{Binding IsBusy, Mode=TwoWay}" Command="{Binding LoadItemsCommand}">
-            <CollectionView x:Name="UserEventDocumentsCollectionView"
+            <CollectionView x:Name="VoteOptionsCollectionView"
                 ItemsSource="{Binding VoteOptions}">
                 <d:CollectionView.ItemsSource>
                     <d:Array Type="{d:Type d:String}">
@@ -26,9 +28,22 @@
                 </d:CollectionView.ItemsSource>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <StackLayout Padding="10" Orientation="Horizontal">
-                            <Label Text="{Binding Description}"/>
-                        </StackLayout>
+                        <ContentView Padding="5">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                                <Label Padding="15" BackgroundColor="{Binding Id, Converter={StaticResource colorConverter}}" WidthRequest="350" Text="{Binding Option}"/>
+                            <Label Grid.Column="1" Text="20%"/>
+                            </Grid>
+                            <ContentView.GestureRecognizers>
+                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OnItemSelected"></TapGestureRecognizer>
+                            </ContentView.GestureRecognizers>
+                        </ContentView>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
