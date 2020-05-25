@@ -48,6 +48,7 @@ namespace EHMobile.Views
             }
             else
             {
+                menuItems.Add(new HomeMenuItem { Id = MenuItemType.News, Title = "Новости" });
                 menuItems.Add(new HomeMenuItem { Id = MenuItemType.Events, Title = "Мероприятия" });
                 menuItems.Add(new HomeMenuItem { Id = MenuItemType.Votes, Title = "Голосования" });
                 menuItems.Add(new HomeMenuItem { Id = MenuItemType.Logout, Title = "Выход" });

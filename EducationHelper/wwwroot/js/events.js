@@ -1,8 +1,4 @@
-﻿// Получение всехпо ajax-запросу
-$(function () {
-    GetAlle();
-});
-function GetAlle() {
+﻿function GetAlle() {
     $.ajax({
         url: '/events',
         type: 'GET',

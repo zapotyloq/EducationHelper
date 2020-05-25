@@ -36,6 +36,9 @@ namespace EHMobile.Views
                     //case (int)MenuItemType.Browse:
                     //    MenuPages.Add(id, new NavigationPage(new ItemsPage()));
                     //    break;
+                    case (int)MenuItemType.News:
+                        MenuPages.Add(id, new NavigationPage(new NewsPage()));
+                        break;
                     case (int)MenuItemType.Events:
                         MenuPages.Add(id, new NavigationPage(new EventsPage()));
                         break;

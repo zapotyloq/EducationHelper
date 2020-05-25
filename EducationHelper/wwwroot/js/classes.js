@@ -1,8 +1,4 @@
-﻿// Получение всехпо ajax-запросу
-$(function () {
-    GetAllc();
-});
-function GetAllc() {
+﻿function GetAllc() {
     $.ajax({
         url: '/classes',
         type: 'GET',

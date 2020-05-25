@@ -43,6 +43,20 @@ namespace EducationHelper.Controllers
             User user = await db.Users.FirstOrDefaultAsync(p => p.Login == User.Identity.Name);
             return new ObjectResult(user);
         }
+        [HttpPut("Profile")]
+        [Authorize]
+        public async Task<ActionResult<User>> Profile(User _user)
+        {
+            User user = await db.Users.FirstOrDefaultAsync(p => p.Login == User.Identity.Name);
+
+            user.Firstname = _user.Firstname;
+            user.Surname = _user.Surname;
+            user.Email = _user.Email;
+            user.Phone = _user.Phone;
+            db.Update(user);
+            await db.SaveChangesAsync();
+            return new ObjectResult(_user);
+        }
         [HttpGet("RemoveFromVote")]
         [Authorize]
         public async Task<ActionResult<User>> RemoveFromVote(int voteId, int userId)

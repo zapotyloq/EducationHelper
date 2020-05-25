@@ -1,7 +1,4 @@
-﻿// Получение всехпо ajax-запросу
-$(function () {
-    GetAlln();
-});
+﻿
 function GetAlln() {
     $.ajax({
         url: '/news',

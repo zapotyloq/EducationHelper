@@ -1,8 +1,4 @@
-﻿// Получение всехпо ajax-запросу
-$(function () {
-    GetAllv();
-});
-function GetAllv() {
+﻿function GetAllv() {
     $.ajax({
         url: '/votes',
         type: 'GET',

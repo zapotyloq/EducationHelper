@@ -53,6 +53,10 @@ function changeIndex(isAuth) {
     if (isAuth) {
         document.getElementById("menu").style.display = "block";
         document.getElementById("login-form").style.display = "none";
+        GetAllc();
+        GetAlle();
+        GetAlln();
+        GetAllv();
     }
     else {
         document.getElementById("menu").style.display = "none";
