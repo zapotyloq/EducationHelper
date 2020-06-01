@@ -11,8 +11,8 @@ namespace EHMobile.Services
 {
     public static class Auth
     {
-        public const string HOST = "http://172.20.10.2:8888";
-        ///public const string HOST = "http://192.168.100.42:8888";
+        //public const string HOST = "http://172.20.10.2:8888";
+        public const string HOST = "http://192.168.100.42:8888";
         //public const string HOST = "http://192.168.0.103:8888";
 
         static User user;
@@ -35,7 +35,14 @@ namespace EHMobile.Services
             //request2.Headers.Set("Accept", "application/json");
             ((HttpWebRequest)request).Accept = "application/json";
             request.Headers.Set("Authorization", "Bearer " + (string)App.Current.Properties["Token"]);
-            WebResponse response = await request.GetResponseAsync();
+            WebResponse response;
+            try
+            {
+                response = await request.GetResponseAsync();
+            }
+            catch{
+                return null;
+            }
 
             string res;
             res = "";

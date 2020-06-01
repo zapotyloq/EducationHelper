@@ -3,17 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:EHMobile;assembly=EHMobile"
              mc:Ignorable="d"
-             x:Class="EHMobile.Views.LoginPage"
+             x:Class="EHMobile.Views.NewDetailPage"
              Title="{Binding Title}"
-             x:Name="BrowseLoginPage">
+             x:Name="BrowseNewDetailPage">
 
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Войти" Clicked="Login" />
-    </ContentPage.ToolbarItems>
-
-    <StackLayout Padding="10">
-        <Editor Completed="e_loginChanged" Placeholder="Логин"/>
-        <Entry x:Name="pass" IsPassword="True" Completed ="e_passChanged" Placeholder="Пароль"/>
+    <StackLayout x:Name="sL" Spacing="5" Padding="5">
+        <Label Text="{Binding Item.Name}" d:Text="Item name" FontSize="Medium"/>
+        <Label Text="{Binding Item.Text}" d:Text="Item description" FontSize="Small"/>
     </StackLayout>
+    
 </ContentPage>

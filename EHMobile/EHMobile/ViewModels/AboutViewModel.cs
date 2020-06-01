@@ -9,7 +9,7 @@ namespace EHMobile.ViewModels
     {
         public AboutViewModel()
         {
-            Title = "About";
+            Title = "О приложении";
             OpenWebCommand = new Command(async () => await Browser.OpenAsync("https://xamarin.com"));
         }
 

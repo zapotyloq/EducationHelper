@@ -17,12 +17,12 @@ namespace EHMobile.ViewModels
         public UserEvent UserEvent { get; set; }
         public List<UserEventDocument> UserEventDocuments { get; set; }
         public Command LoadItemsCommand { get; set; }
-        public EventUserDetailViewModel(Event _event, User _user)
+        public EventUserDetailViewModel(Event _event, User _user, UserEvent ue)
         {
             User = _user;
             Event = _event;
             UserEventDocuments = new List<UserEventDocument>();
-
+            UserEvent = ue;
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
         }
         async Task ExecuteLoadItemsCommand()

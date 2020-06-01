@@ -11,6 +11,7 @@ using Common.Models;
 using EHMobile.Views;
 using EHMobile.ViewModels;
 using EHMobile.Services;
+using Java.Lang;
 
 namespace EHMobile.Views
 {
@@ -24,15 +25,18 @@ namespace EHMobile.Views
         public LoginPage()
         {
             InitializeComponent();
-
+            
             BindingContext = viewModel = new LoginViewModel();
+
+            
         }
 
         async void Login(object sender, EventArgs e)
         {
-            if (await Auth.Login(viewModel.Login, viewModel.Password) != null)
+            if (await Auth.Login(viewModel.Login, pass.Text) != null)
             {
-                await Navigation.PushAsync(new AboutPage());
+                if (Auth.User != null) Navigation.InsertPageBefore(new NewsPage(), this);
+                await Navigation.PopAsync();
             }
         }
         void e_loginChanged(object sender, EventArgs e)
@@ -41,8 +45,16 @@ namespace EHMobile.Views
         }
         void e_passChanged(object sender, EventArgs e)
         {
-            viewModel.Password = ((Editor)sender).Text;
+            viewModel.Password = ((Entry)sender).Text;
         }
 
+        async protected override void OnAppearing()
+        {
+            if (Auth.User != null)
+            {
+                Navigation.InsertPageBefore(new NewsPage(), this);
+                await Navigation.PopAsync();
+            }
+        }
     }
 }

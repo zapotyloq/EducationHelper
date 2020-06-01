@@ -16,7 +16,7 @@ namespace EHMobile.Views
     [DesignTimeVisible(false)]
     public partial class MainPage : MasterDetailPage
     {
-        Dictionary<int, NavigationPage> MenuPages = new Dictionary<int, NavigationPage>();
+        public Dictionary<int, NavigationPage> MenuPages = new Dictionary<int, NavigationPage>();
         public MainPage()
         {
             InitializeComponent();
@@ -50,9 +50,8 @@ namespace EHMobile.Views
                         break;
                     case (int)MenuItemType.Logout:
                         {
-                            App.Current.Properties["Token"] = "";
-                            Auth.User = null;
-                            MenuPages.Add(id, new NavigationPage(new LoginPage()));
+                            
+                            //MenuPages.Add(id, new NavigationPage(new LoginPage()));
                         }
                         break;
                 }

@@ -49,15 +49,15 @@ namespace EHMobile.Views
                 btn_users.Clicked += OpenUsers;
                 sL.Children.Add(btn_users);
 
-                Button btn_opl = new Button
-                {
-                    Text = "Оплата события",
-                    BackgroundColor = Color.SpringGreen,
-                    TextColor = Color.White,
-                    FontSize = 22
-                };
-                btn_opl.Clicked += OplEvent;
-                sL.Children.Add(btn_opl);
+                //Button btn_opl = new Button
+                //{
+                //    Text = "Оплата события",
+                //    BackgroundColor = Color.SpringGreen,
+                //    TextColor = Color.White,
+                //    FontSize = 22
+                //};
+                //btn_opl.Clicked += OplEvent;
+                //sL.Children.Add(btn_opl);
 
                 Button btn_rmv = new Button
                 {
@@ -120,13 +120,14 @@ namespace EHMobile.Views
             User u = await Auth.GetUser();
             if (u.Id == viewModel.Item.AuthorId || u.Role == "1")
             {
-
+                await new EventDataStore().DeleteItemAsync(viewModel.Item.Id);
+                await Navigation.PopAsync();
             }
         }
 
         async void OplEvent(object sender, EventArgs args)
         {
-            User u = await Auth.GetUser();
+            User u = Auth.User;
             if (u.Id == viewModel.Item.AuthorId || u.Role == "1")
             {
 
@@ -135,7 +136,13 @@ namespace EHMobile.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-
+            User u = Auth.User;
+            if (u.Id == viewModel.Item.AuthorId || u.Role == "1")
+            {
+                lTotal.Text = viewModel.Item.Total.ToString();
+                lProgress.Text = viewModel.Item.Progress.ToString();
+            }
+            
             viewModel.IsBusy = true;
         }
         async void OnImageNameTapped(object sender, EventArgs args)

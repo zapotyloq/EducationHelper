@@ -24,7 +24,6 @@ namespace EHMobile.Views
         public NewsPage()
         {
             InitializeComponent();
-
             BindingContext = viewModel = new NewsViewModel();
         }
 
@@ -32,6 +31,9 @@ namespace EHMobile.Views
         {
             var layout = (BindableObject)sender;
             var item = (New)layout.BindingContext;
+            User u = Auth.User;
+            if (u.Role == "3" || u.Role == "1") { }
+                await Navigation.PushAsync(new NavigationPage(new NewDetailPage(new NewDetailViewModel(item))));
             if (Auth.User.Role == "2")
             {
                 //var ue = await new UserEventDataStore().GetItemAsync(item.Id, Auth.User.Id);
@@ -45,7 +47,7 @@ namespace EHMobile.Views
         {
             User u = await Auth.GetUser();
             if (u.Role == "3" || u.Role == "1") { }
-                //await Navigation.PushModalAsync(new NavigationPage(new NewEventPage()));
+                await Navigation.PushModalAsync(new NavigationPage(new NewNewPage()));
         }
 
         protected override void OnAppearing()

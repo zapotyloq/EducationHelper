@@ -73,7 +73,7 @@ namespace EducationHelper.Controllers
                 return BadRequest();
             }
 
-            _event.AuthorId = user.Id;
+            if (_event.AuthorId == 0)  _event.AuthorId = user.Id;
             db.Events.Add(_event);
             await db.SaveChangesAsync();
             return Ok(_event);

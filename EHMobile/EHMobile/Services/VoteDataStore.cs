@@ -53,8 +53,8 @@ namespace EHMobile.Services
         {
             var oldItem = items.Where((Vote arg) => arg.Id == id).FirstOrDefault();
             items.Remove(oldItem);
-
-            return await Task.FromResult(true);
+            var response = await GetClient().DeleteAsync(Auth.HOST + "/votes/" + id);
+            return true;
         }
 
         public async Task<Vote> GetItemAsync(int id)

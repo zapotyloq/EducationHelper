@@ -23,7 +23,33 @@ namespace EducationHelper.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<New>> Get()
         {
-            return db.News.ToList();
+            User user = db.Users.FirstOrDefault(p => p.Login == User.Identity.Name);
+            List<New> result = new List<New>();
+
+            if (user != null)
+            {
+                switch (Convert.ToInt32(user.Role))
+                {
+                    case 1: result = db.News.ToList(); break;
+                    case 2: //Обычный пользователь
+                        {
+                            db.UserNews.Where(p => p.UserId == user.Id).ToList().ForEach(ue => result.Add(db.News.FirstOrDefault(p => p.Id == ue.NewId)));
+                        }
+                        break;
+                    case 3:
+                        {
+                            //добавяем где учавствует
+                            List<UserNew> userEvents = db.UserNews.Where(p => p.UserId == user.Id).ToList();
+
+                            if (userEvents.Any(ue => db.News.FirstOrDefault(e => e.Id == ue.UserId && e.AuthorId != user.Id) != null))
+                                userEvents.ForEach(ue => result.Add(db.News.FirstOrDefault(p => p.Id == ue.NewId && p.AuthorId != user.Id))); ;
+                            //добавляем где автор
+                            db.News.Where(p => p.AuthorId == user.Id).ToList().ForEach(e => result.Add(e));
+                        }
+                        break;
+                }
+            }
+            return result;
         }
 
         // GET /5

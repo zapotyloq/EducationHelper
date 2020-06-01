@@ -45,7 +45,7 @@ namespace EHMobile.Views
 
         async void AddItem_Clicked(object sender, EventArgs e)
         {
-            User u = await Auth.GetUser();
+            User u = Auth.User;
             if (u.Role == "3" || u.Role == "1")
             {
                 await Navigation.PushModalAsync(new NavigationPage(new NewVotePage()));

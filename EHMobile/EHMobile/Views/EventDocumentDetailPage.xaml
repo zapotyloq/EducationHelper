@@ -5,11 +5,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="EHMobile.Views.EventDocumentDetailPage"
-             Title="{Binding Title}">
+             Title="{Binding Event.Name}">
     <AbsoluteLayout Padding="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-        <StackLayout x:Name="sL" Spacing="20" Padding="15" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
-            <Label Text="Событие:" FontSize="Medium" />
-            <Label Text="{Binding Event.Name}" d:Text="Item name" FontSize="Small"/>
+        <StackLayout x:Name="sL" Spacing="5" Padding="5" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+            <Label Text="Пользователь:" FontSize="Medium" />
+            <Label Text="{Binding User.FIO}" d:Text="Item name" FontSize="Small"/>
             <Label Text="Файл:" FontSize="Medium" />
             <Image x:Name="doc" Aspect="AspectFill" Source="{Binding ImageSource}"
                    WidthRequest="100" HeightRequest="100" HorizontalOptions="StartAndExpand" 

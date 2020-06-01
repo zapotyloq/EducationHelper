@@ -61,7 +61,7 @@ namespace EHMobile.Views
 
         async void OpenDocks(object sender, EventArgs args)
         {
-            User u = await Auth.GetUser();
+            User u = Auth.User;
             if (u.Id == viewModel.Item.AuthorId || u.Role == "1")
             {
                 await Navigation.PushAsync(new VoteOptionsPage(new VoteOptionsViewModel(viewModel.Item)));
@@ -80,7 +80,8 @@ namespace EHMobile.Views
             User u = await Auth.GetUser();
             if (u.Id == viewModel.Item.AuthorId || u.Role == "1")
             {
-
+                await new VoteDataStore().DeleteItemAsync(viewModel.Item.Id);
+                await Navigation.PopAsync();
             }
         }
 

@@ -11,6 +11,7 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <local:TextColorConverter x:Key="colorConverter" />
+            <local:UserFromUEDConverter x:Key="uuedConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
     <RefreshView IsRefreshing="{Binding IsBusy, Mode=TwoWay}" Command="{Binding LoadItemsCommand}">
@@ -29,7 +30,7 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <StackLayout Padding="10">
-                        <Label Text="{Binding Id}" 
+                        <Label Text="{Binding UserEventId, Converter={StaticResource uuedConverter}}" 
                                 d:Text="{Binding .}"
                                 LineBreakMode="NoWrap" 
                                 Style="{DynamicResource ListItemTextStyle}" 

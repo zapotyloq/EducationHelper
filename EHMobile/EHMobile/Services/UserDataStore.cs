@@ -55,7 +55,27 @@ namespace EHMobile.Services
 
             return await Task.FromResult(true);
         }
+        public User GetItem(int id)
+        {
+            WebRequest request = WebRequest.Create(Auth.HOST + "/users/" + id);
+            request.Method = "GET";
+            //request2.Headers.Set("Accept", "application/json");
+            ((HttpWebRequest)request).Accept = "application/json";
+            request.Headers.Set("Authorization", "Bearer " + (string)App.Current.Properties["Token"]);
+            WebResponse response = request.GetResponse();
 
+            string result = "";
+            using (Stream stream = response.GetResponseStream())
+            {
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    result += reader.ReadToEnd();
+                }
+            }
+            response.Close();
+
+            return JsonConvert.DeserializeObject<User>(result);
+        }
         public async Task<User> GetItemAsync(int id)
         {
             WebRequest request = WebRequest.Create(Auth.HOST + "/users/" + id);

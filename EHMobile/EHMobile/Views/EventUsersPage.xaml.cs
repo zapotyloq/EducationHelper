@@ -34,8 +34,9 @@ namespace EHMobile.Views
             var layout = (BindableObject)sender;
             var item = (User)layout.BindingContext; 
             User u = await Auth.GetUser();
+            UserEvent ue = await new UserEventDataStore().GetItemByIDSAsync(item.Id, viewModel.Event.Id);
             if (u.Id == viewModel.Event.AuthorId || u.Role == "1") ;
-                await Navigation.PushAsync(new EventUserDetailPage(new EventUserDetailViewModel(viewModel.Event,item)));
+                await Navigation.PushAsync(new EventUserDetailPage(new EventUserDetailViewModel(viewModel.Event,item,ue)));
         }
 
         async void AddItem_Clicked(object sender, EventArgs e)

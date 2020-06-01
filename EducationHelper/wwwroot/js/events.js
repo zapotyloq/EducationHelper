@@ -27,6 +27,9 @@ function Adde() {
         type: 'POST',
         data: JSON.stringify(data),
         contentType: "application/json;charset=utf-8",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem(tokenKey),  // передача токена в заголовке
+        },
         success: function (data) {
             GetAlle();
         },

@@ -38,7 +38,7 @@
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                                 <Label Padding="15" BackgroundColor="{Binding Id, Converter={StaticResource colorConverter}}" WidthRequest="350" Text="{Binding Option}"/>
-                            <Label Grid.Column="1" Text="20%"/>
+                            <Label Grid.Column="1" Text="{Binding Npp}"/>
                             </Grid>
                             <ContentView.GestureRecognizers>
                                 <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OnItemSelected"></TapGestureRecognizer>

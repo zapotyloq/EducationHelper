@@ -39,6 +39,8 @@ namespace EHMobile.Services
             var json = JsonConvert.SerializeObject(item);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await GetClient().PostAsync(Auth.HOST + "/news", content);
+
+
             return true;
         }
         public async Task<bool> UpdateItemAsync(New item)

@@ -42,6 +42,7 @@ namespace EHMobile.Services
 
         public async Task<bool> AddItemAsync(Event item)
         {
+            item.AuthorId = Auth.User.Id;
             var json = JsonConvert.SerializeObject(item);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             HttpClient client = new HttpClient();
@@ -64,8 +65,8 @@ namespace EHMobile.Services
         {
             var oldItem = items.Where((Event arg) => arg.Id == id).FirstOrDefault();
             items.Remove(oldItem);
-
-            return await Task.FromResult(true);
+            var response = await GetClient().DeleteAsync(Auth.HOST + "/events/" + id);
+            return true;
         }
 
         public async Task<Event> GetItemAsync(int id)

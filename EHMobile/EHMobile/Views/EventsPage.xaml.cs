@@ -32,7 +32,7 @@ namespace EHMobile.Views
         {
             var layout = (BindableObject)sender;
             var item = (Event)layout.BindingContext;
-            if (Auth.User.Role == "2")
+            if (Auth.User.Role != "1" && Auth.User.Id != item.AuthorId)
             {
                 var ue = await new UserEventDataStore().GetItemAsync(item.Id, Auth.User.Id);
                 var ueds = await new UserEventDocumentDataStore().GetUEDAsync(ue.Id);
@@ -43,7 +43,7 @@ namespace EHMobile.Views
 
         async void AddItem_Clicked(object sender, EventArgs e)
         {
-            User u = await Auth.GetUser();
+            User u = Auth.User;
             if(u.Role == "3" || u.Role == "1")
                 await Navigation.PushModalAsync(new NavigationPage(new NewEventPage()));
         }

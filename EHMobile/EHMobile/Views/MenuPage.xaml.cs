@@ -32,6 +32,12 @@ namespace EHMobile.Views
                     return;
 
                 var id = (int)((HomeMenuItem)e.SelectedItem).Id;
+                if (id == 6)
+                {
+                    id = 1;
+                    App.Current.Properties["Token"] = "";
+                    Auth.User = null;
+                }
                 await RootPage.NavigateFromMenu(id);
                 
             };
@@ -41,7 +47,7 @@ namespace EHMobile.Views
         {
             menuItems.Clear();
             //menuItems.Add(new HomeMenuItem { Id = MenuItemType.Browse, Title = "Browse" });
-            menuItems.Add(new HomeMenuItem { Id = MenuItemType.About, Title = "About" });
+            
             if (Auth.User == null)
             {
                 menuItems.Add(new HomeMenuItem { Id = MenuItemType.Login, Title = "Авторизация" });
@@ -51,10 +57,15 @@ namespace EHMobile.Views
                 menuItems.Add(new HomeMenuItem { Id = MenuItemType.News, Title = "Новости" });
                 menuItems.Add(new HomeMenuItem { Id = MenuItemType.Events, Title = "Мероприятия" });
                 menuItems.Add(new HomeMenuItem { Id = MenuItemType.Votes, Title = "Голосования" });
+               
+            }
+            menuItems.Add(new HomeMenuItem { Id = MenuItemType.About, Title = "О приложении" });
+            if(Auth.User != null)
+            {
                 menuItems.Add(new HomeMenuItem { Id = MenuItemType.Logout, Title = "Выход" });
             }
+            ListViewMenu.ItemsSource = null;
             ListViewMenu.ItemsSource = menuItems;
-            
         }
     }
 }

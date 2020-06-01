@@ -9,5 +9,7 @@ namespace Common.Models
         public int Id { get; set; }
         public int VoteId { get; set; }
         public string Option { get; set; }
+
+        public int Npp { get; set; }
     }
 }

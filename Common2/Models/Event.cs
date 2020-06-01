@@ -12,5 +12,6 @@ namespace Common.Models
         public string Description { get; set; }
         public int AuthorId { get; set; }
         public int UserTotal { get; set; }
+        public int Progress { get; set; }
     }
 }

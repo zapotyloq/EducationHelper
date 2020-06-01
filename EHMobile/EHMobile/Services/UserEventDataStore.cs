@@ -63,7 +63,29 @@ namespace EHMobile.Services
 
             return await Task.FromResult(true);
         }
+        public UserEvent GetItem(int id)
+        {
+            WebRequest request = WebRequest.Create(Auth.HOST + "/userevents/" + id);
+            //request2.Headers.Set("Accept", "application/json");
+            ((HttpWebRequest)request).Accept = "application/json";
+            request.Headers.Set("Authorization", "Bearer " + (string)App.Current.Properties["Token"]);
+            WebResponse response = request.GetResponse();
 
+            string result = "";
+            using (Stream stream = response.GetResponseStream())
+            {
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    result += reader.ReadToEnd();
+                }
+            }
+            response.Close();
+
+            //HttpClient client = GetClient();
+            //string result = await client.GetStringAsync(Url);
+            return JsonConvert.DeserializeObject<UserEvent>(result);
+            //return await Task.FromResult(items.FirstOrDefault(s => s.Id == id));
+        }
         public async Task<UserEvent> GetItemAsync(int id)
         {
             WebRequest request = WebRequest.Create(Auth.HOST + "/userevents/" + id);
@@ -88,6 +110,29 @@ namespace EHMobile.Services
             //return await Task.FromResult(items.FirstOrDefault(s => s.Id == id));
         }
 
+        public async Task<UserEvent> GetItemByIDSAsync(int userid, int eventid)
+        {
+            WebRequest request = WebRequest.Create(Auth.HOST + "/userevents/getbyids?userid=" + userid +"&eventid=" +eventid);
+            //request2.Headers.Set("Accept", "application/json");
+            ((HttpWebRequest)request).Accept = "application/json";
+            request.Headers.Set("Authorization", "Bearer " + (string)App.Current.Properties["Token"]);
+            WebResponse response = await request.GetResponseAsync();
+
+            string result = "";
+            using (Stream stream = response.GetResponseStream())
+            {
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    result += reader.ReadToEnd();
+                }
+            }
+            response.Close();
+
+            //HttpClient client = GetClient();
+            //string result = await client.GetStringAsync(Url);
+            return JsonConvert.DeserializeObject<UserEvent>(result);
+            //return await Task.FromResult(items.FirstOrDefault(s => s.Id == id));
+        }
         public async Task<UserEvent> GetItemByEventIdAsync(int id)
         {
             WebRequest request = WebRequest.Create(Auth.HOST + "/userevents/byEvId/" + id);
@@ -112,6 +157,25 @@ namespace EHMobile.Services
             //return await Task.FromResult(items.FirstOrDefault(s => s.Id == id));
         }
 
+        public UserEvent GetItemByEventId(int id)
+        {
+            WebRequest request = WebRequest.Create(Auth.HOST + "/userevents/byEvId/" + id);
+            //request2.Headers.Set("Accept", "application/json");
+            ((HttpWebRequest)request).Accept = "application/json";
+            request.Headers.Set("Authorization", "Bearer " + (string)App.Current.Properties["Token"]);
+            WebResponse response = request.GetResponse();
+
+            string result = "";
+            using (Stream stream = response.GetResponseStream())
+            {
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    result += reader.ReadToEnd();
+                }
+            }
+            response.Close();
+            return JsonConvert.DeserializeObject<UserEvent>(result);
+        }
         public async Task<UserEvent> GetItemAsync(int eventId, int userId)
         {
             WebRequest request = WebRequest.Create(Auth.HOST + "/userevents/getbyids?eventid=" + eventId +"&userid=" + userId);
